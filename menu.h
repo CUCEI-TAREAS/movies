@@ -10,14 +10,14 @@
 #define NAMEFILE "movies.txt"
 #define NAMEFILE_TEMPORAL "~movies.txt"
 
-#define ADD_MOVIE 1
-#define SHOW_MOVIES 2
-#define SEARCH_MOVIE 3
-#define MODIFY_MOVIE 4
-#define DELETE 5
-#define HIDDEN_MOVIE 6
-#define RESTORE_MOVIE 7
-#define EXIT 8
+#define ADD_MOVIE '1'
+#define SHOW_MOVIES '2'
+#define SEARCH_MOVIE '3'
+#define MODIFY_MOVIE '4'
+#define DELETE '5'
+#define HIDDEN_MOVIE '6'
+#define RESTORE_MOVIE '7'
+#define EXIT '8'
 
 class Menu {
 
