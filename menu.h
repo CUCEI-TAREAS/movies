@@ -13,10 +13,14 @@
 #define RESTORE_MOVIE	7
 #define EXIT		8
 
+#include <ifstream>
+
 #include "movie.h"
 
-class Menu {	
+class Menu {
+
 private:
+	ofstream file(NAMEFILE, std::ofstream::app | std::ofstream::out);
 
 public:	
 	Menu();
