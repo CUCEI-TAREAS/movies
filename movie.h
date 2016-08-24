@@ -1,17 +1,7 @@
 #ifndef MOVIE_H_INCLUDED
 #define MOVIE_H_INCLUDED
 
-#define NAMEFILE "movies.txt"
-
-#define ADD_MOVIE 	1
-#define SHOW_MOVIES	2
-#define SEARCH_MOVIE	3
-#define MODIFY_MOVIE	4
-#define DELETE		5
-#define HIDDEN_MOVIE	6
-#define RESTORE_MOVIE	7
-#define EXIT		8
-
+#include <string.h>
 // SEARCH FOR NAME
 
 class Movie {	
@@ -36,4 +26,4 @@ public:
 
 };
 
-#endif MOVIE_H_INCLUDED
+#endif // MOVIE_H_INCLUDED
