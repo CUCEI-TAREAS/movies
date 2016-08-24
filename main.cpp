@@ -9,7 +9,6 @@ using namespace std;
 
 int main () {
 
-	Movie x;
 
 	cout<<"all is well";
 	

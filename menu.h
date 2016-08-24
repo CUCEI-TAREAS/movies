@@ -1,6 +1,9 @@
 #ifndef MENU_H_INCLUDED
 #define MENU_H_INCLUDED
 
+#include <fstream>
+#include "movie.h"
+
 #define NAMEFILE "movies.txt"
 #define NAMEFILE_TEMPORAL "~movies.txt"
 
@@ -13,14 +16,10 @@
 #define RESTORE_MOVIE	7
 #define EXIT		8
 
-#include <ifstream>
-
-#include "movie.h"
-
 class Menu {
 
 private:
-	ofstream file(NAMEFILE, std::ofstream::app | std::ofstream::out);
+	std::ofstream file();
 
 public:	
 	Menu();
