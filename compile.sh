@@ -1,3 +1,2 @@
 #!/bin/bash
-g++ main.cpp menu.cpp movie.cpp -o movies
-./movies
+g++ -std=c++11 main.cpp menu.cpp movie.cpp -o movie

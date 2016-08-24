@@ -4,16 +4,16 @@
 #include "menu.h"
 #include "movie.h"
 
-#define CLEAR clear
+#define CLEAR "clear"
 
 using namespace std;
 
 int main () {
 
+	system(CLEAR);	
+
 	Menu myMenu;
 	myMenu.showMenu();
-	
-	cout<<"all is well"<<endl;
-	
+
 	return 0;
 }
