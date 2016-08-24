@@ -1,2 +1,3 @@
 #!/bin/bash
-g++ main.cpp movie.cpp menu.cpp
+g++ main.cpp menu.cpp movie.cpp -o movies
+./movies

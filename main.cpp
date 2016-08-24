@@ -1,17 +1,19 @@
 #include <iostream>
-#include <fstream>
-#include <string>
-#include "movie.h"
-#include "menu.h"
+#include <cstdlib>
 
+#include "menu.h"
+#include "movie.h"
+
+#define CLEAR clear
 
 using namespace std;
 
 int main () {
 
-
-	cout<<"all is well";
+	Menu myMenu;
+	myMenu.showMenu();
 	
-
+	cout<<"all is well"<<endl;
+	
 	return 0;
 }

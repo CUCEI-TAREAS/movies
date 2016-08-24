@@ -1,7 +1,10 @@
 #ifndef MENU_H_INCLUDED
 #define MENU_H_INCLUDED
 
+#include <iostream>
 #include <fstream>
+#include <string>
+
 #include "movie.h"
 
 #define NAMEFILE "movies.txt"
