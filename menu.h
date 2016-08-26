@@ -7,6 +7,12 @@
 
 #include "movie.h"
 
+#ifdef __linux__ 
+    #define CLEAR "clear"
+#elif _WIN32
+    #define CLEAR "cls"
+#endif
+
 #define NAMEFILE "movies.txt"
 #define NAMEFILE_TEMPORAL "~movies.txt"
 
