@@ -4,14 +4,14 @@
 #include <string.h>
 // SEARCH FOR NAME
 
-class Movie {	
+class Movie {
 private:
 	char name[50];
 	char category[50];
 	char year[10];
 
 public:
-	
+
 	Movie();
 	Movie(char*, char*, char*);
 	~Movie();

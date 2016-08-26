@@ -1,7 +1,7 @@
 #include "movie.h"
 
 Movie::Movie(){
-	memcpy(name, 0, sizeof(name));	
+	memcpy(name, 0, sizeof(name));
 	memcpy(category, 0, sizeof(name));
 	memcpy(year, 0, sizeof(name));
 }

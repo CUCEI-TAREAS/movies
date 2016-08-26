@@ -11,16 +11,15 @@ Menu::~Menu(){
 
 void Menu::printMenu(){
 
-	cout<<"Welcome "<<endl<<endl;
-	cout<< ADD_MOVIE <<" Add movie"<<endl;
-	cout<< SHOW_MOVIES <<" Show movies"<<endl;
-	cout<< SEARCH_MOVIE <<" Search movie"<<endl;
-	cout<< MODIFY_MOVIE <<" Modify movie"<<endl;
-	cout<< DELETE << " Delete movie"<<endl;
-	cout<< HIDDEN_MOVIE << " Hide movie"<<endl;
-	cout<< RESTORE_MOVIE << " Restore hidden movie"<<endl;
-	cout<< EXIT << " exit"<<endl<<endl;
-
+	cout<< TITLE_MAIN_MENU<<endl<<endl;
+	cout<< ADD_MOVIE   << TITLE_ADD_MOVIE <<endl;
+	cout<< SHOW_MOVIES << TITLE_SHOW_MOVIES<<endl;
+	cout<< SEARCH_MOVIE <<TITLE_SEARCH_MOVIE<<endl;
+	cout<< MODIFY_MOVIE <<TITLE_MODIFY_MOVIE<<endl;
+	cout<< DELETE << TITLE_DELETE<<endl;
+	cout<< HIDDEN_MOVIE << TITLE_HIDDEN_MOVIE<<endl;
+	cout<< RESTORE_MOVIE << TITLE_RESTORE_MOVIE<<endl;
+	cout<< EXIT << TITLE_EXIT<<endl<<endl;
 }
 
 void Menu::doAction(char option){
@@ -34,10 +33,8 @@ void Menu::doAction(char option){
 		case HIDDEN_MOVIE : addMovie(); break;
 		case RESTORE_MOVIE : addMovie(); break;
 		case EXIT : addMovie(); break;
-
 	}
 }
-
 
 void Menu::mainMenu(){
 
@@ -59,15 +56,35 @@ void Menu::mainMenu(){
 	}while(option != EXIT);
 }
 
-/// search the movie in the file [duplicate()] []
-/// if movie dont exist, is write...
-// else, message is show that is duplicate
+/// search the NAME movie in the file [duplicate()] []
+/// if name movie dont exist, is posibnle write...
+/// else, message is show that is duplicate
 void Menu::addMovie(){
-    Movie toAdd = captureMovie();
+    system(CLEAR);
+    cout<<TITLE_ADD_MOVIE<<endl<<endl;
+
+    Movie movieToAdd = captureMovie();
+
+    // if (movieToAdd == nullptr)
+    //    return;
 }
 
 Movie Menu::captureMovie(){
+    char temp[50];
+    cout<<"write name of movie : ";
+    ///FIX : how to read directly ?
+    /// search in the file if is duplicated by name
+    ///
 
-    cin.get();
-    cin.get();
+    Movie movieToAdd;
+//    movieToAdd.setName(temp.c_str());
+
+    cout<<"write category of movie : ";
+    cin>>temp;
+//    movieToAdd.setCategory(temp.c_str());
+
+    cout<<"write year of movie : ";
+    cin>>temp;
+
+
 }
