@@ -4,10 +4,11 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <cstdlib>
 
 #include "movie.h"
 
-#ifdef __linux__ 
+#ifdef __linux__
     #define CLEAR "clear"
 #elif _WIN32
     #define CLEAR "cls"
@@ -30,10 +31,10 @@ class Menu {
 private:
 	std::ofstream file();
 
-public:	
+public:
 	Menu();
 	~Menu();
-	
+
 	void printMenu(void);
 	void doAction(char);
 	void mainMenu(void);
@@ -42,11 +43,12 @@ public:
 	void showMovies();
 	void searchMovie();
 
+/// to manage file directly
 	void writeMovie();
 	void readMovie();
 
 
-	void captureMovie();
+	Movie captureMovie();
 };
 
 #endif // MENU_H_INCLUDED
