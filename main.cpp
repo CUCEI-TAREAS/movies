@@ -4,7 +4,11 @@
 #include "menu.h"
 #include "movie.h"
 
-#define CLEAR "clear"
+#ifdef __linux__ 
+    #define CLEAR "clear"
+#elif _WIN32
+    #define CLEAR "cls"
+#endif
 
 using namespace std;
 
