@@ -27,16 +27,20 @@ private:
 public:	
 	Menu();
 	~Menu();
+	
+	void printMenu(void);
+	void doAction(char);
+	void mainMenu(void);
 
-	void showMenu(void);
-
-	void addMovie();
+	void addMovie(void);
 	void showMovies();
 	void searchMovie();
 
 	void writeMovie();
 	void readMovie();
 
+
+	void captureMovie();
 };
 
 #endif // MENU_H_INCLUDED

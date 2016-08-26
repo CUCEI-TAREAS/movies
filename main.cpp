@@ -13,7 +13,7 @@ int main () {
 	system(CLEAR);	
 
 	Menu myMenu;
-	myMenu.showMenu();
+	myMenu.mainMenu();
 
 	return 0;
 }
