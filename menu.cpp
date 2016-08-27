@@ -32,7 +32,7 @@ void Menu::doAction(char option){
 		case DELETE : addMovie(); break;
 		case HIDDEN_MOVIE : addMovie(); break;
 		case RESTORE_MOVIE : addMovie(); break;
-		case EXIT : addMovie(); break;
+		case EXIT : break;
 	}
 }
 
@@ -91,7 +91,23 @@ Movie Menu::captureMovie(){
 }
 
 void  Menu::writeMovie(Movie* toAdd){
+	
+	char size[3];
+	size[0] = (char) sizeof(toAdd->getName());
+	size[1] = (char) sizeof(toAdd->getCategory());
+	size[2] = (char) sizeof(toAdd->getYear());
+
 	ofstream file(NAMEFILE, ofstream::app);
-	file.write("", 0);
+
+	file.write(&size[0], 1);
+	file.write(toAdd->getName(), size[0]);
+
+	file.write(&size[1], 1);
+	file.write(toAdd->getCategory(), size[1]);
+
+	file.write(&size[2], 1);
+	file.write(toAdd->getYear(), size[2]);
+
 	file.close();
+
 }
