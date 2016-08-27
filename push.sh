@@ -1,4 +1,7 @@
 #!/bin/bash
+echo git remote add practica1 https://github.com/transmigracion/movies.git
+git remote add practica1 https://github.com/transmigracion/movies.git
+
 echo git add README.md LICENSE push.sh compile.sh *.cpp *.h
 git add push.sh compile.sh *.cpp *.h
 
