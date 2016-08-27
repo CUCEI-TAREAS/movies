@@ -13,16 +13,16 @@ private:
 public:
 
 	Movie();
-	Movie(char*, char*, char*);
+	Movie(char[], char[], char[]);
 	~Movie();
 
-	void getName(char*);
-	void getCategory(char*);
-	void getYear(char*);
+	char* getName();
+	char* getCategory();
+	char* getYear();
 
-	void setName(char*);
-	void setCategory(char*);
-	void setYear(char*);
+	void setName(char[]);
+	void setCategory(char[]);
+	void setYear(char[]);
 
 };
 

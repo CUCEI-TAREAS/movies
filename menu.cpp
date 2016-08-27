@@ -3,7 +3,7 @@
 using namespace std;
 
 Menu::Menu(){
-	ofstream file(NAMEFILE, ofstream::app);
+
 }
 
 Menu::~Menu(){
@@ -60,31 +60,32 @@ void Menu::mainMenu(){
 /// if name movie dont exist, is posibnle write...
 /// else, message is show that is duplicate
 void Menu::addMovie(){
-    system(CLEAR);
-    cout<<TITLE_ADD_MOVIE<<endl<<endl;
+	system(CLEAR);
+	cout<<TITLE_ADD_MOVIE<<endl<<endl;
 
-    Movie movieToAdd = captureMovie();
+	Movie movieToAdd = captureMovie();
 
-    // if (movieToAdd == nullptr)
-    //    return;
 }
 
 Movie Menu::captureMovie(){
-    char temp[50];
-    cout<<"write name of movie : ";
-    ///FIX : how to read directly ?
-    /// search in the file if is duplicated by name
-    ///
+	char temp[50];
+	memset(temp, 0, sizeof(temp));
 
-    Movie movieToAdd;
-//    movieToAdd.setName(temp.c_str());
+	cout<<"write name of movie : ";
+	cin>>temp;
+	
+	///FIX : how to read directly ?
+	/// search in the file if is duplicated by 
 
-    cout<<"write category of movie : ";
-    cin>>temp;
-//    movieToAdd.setCategory(temp.c_str());
+	Movie movieToAdd;
+	movieToAdd.setName(temp);
 
-    cout<<"write year of movie : ";
-    cin>>temp;
+	cout<<"write category of movie : ";
+	cin>>temp;
+	movieToAdd.setCategory(temp);
 
+	cout<<"write year of movie : ";
+	cin>>temp;
+	movieToAdd.setYear(temp);
 
 }
