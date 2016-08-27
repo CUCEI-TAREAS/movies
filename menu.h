@@ -40,9 +40,6 @@
 
 class Menu {
 
-private:
-	std::ofstream file();
-
 public:
 	Menu();
 	~Menu();
@@ -56,7 +53,7 @@ public:
 	void searchMovie();
 
 /// to manage file directly
-	void writeMovie();
+	void writeMovie(Movie*);
 	void readMovie();
 
 

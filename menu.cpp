@@ -64,9 +64,11 @@ void Menu::addMovie(){
 	cout<<TITLE_ADD_MOVIE<<endl<<endl;
 
 	Movie movieToAdd = captureMovie();
-
+	writeMovie(&movieToAdd);
 }
 
+/// FIX: how to read directly ?
+/// search in the file if is duplicated by 
 Movie Menu::captureMovie(){
 	char temp[50];
 	memset(temp, 0, sizeof(temp));
@@ -74,9 +76,6 @@ Movie Menu::captureMovie(){
 	cout<<"write name of movie : ";
 	cin>>temp;
 	
-	///FIX : how to read directly ?
-	/// search in the file if is duplicated by 
-
 	Movie movieToAdd;
 	movieToAdd.setName(temp);
 
@@ -88,4 +87,11 @@ Movie Menu::captureMovie(){
 	cin>>temp;
 	movieToAdd.setYear(temp);
 
+	return movieToAdd;
+}
+
+void  Menu::writeMovie(Movie* toAdd){
+	ofstream file(NAMEFILE, ofstream::app);
+	file.write("", 0);
+	file.close();
 }
