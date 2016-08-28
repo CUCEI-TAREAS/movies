@@ -27,11 +27,11 @@ void Menu::doAction(char option){
 	switch(option){
 		case ADD_MOVIE : addMovie(); break;
 		case SHOW_MOVIES : showMovies(); break;
-		case SEARCH_MOVIE : addMovie(); break;
-		case MODIFY_MOVIE : addMovie(); break;
-		case DELETE : addMovie(); break;
-		case HIDDEN_MOVIE : addMovie(); break;
-		case RESTORE_MOVIE : addMovie(); break;
+		case SEARCH_MOVIE : break;
+		case MODIFY_MOVIE : break;
+		case DELETE : break;
+		case HIDDEN_MOVIE : break;
+		case RESTORE_MOVIE :break;
 		case EXIT : break;
 	}
 }
@@ -70,10 +70,8 @@ void Menu::addMovie(){
 }
 
 void Menu::showMovies(){
-	ifstream file(NAMEFILE, ifstream::app);
-	file.open();
-	
-	file.close();
+	loadMovie();
+
 }
 /// FIX: how to read directly ?
 /// search in the file if is duplicated by 
@@ -112,6 +110,11 @@ void  Menu::writeMovie(Movie* toAdd){
 
 	ofstream file(NAMEFILE, ofstream::app);
 	
+	// flags to hide 0
+	// by default 1 
+	file.write("0", 1);
+	
+	// movie data
 	file.write(&sizeName, 1);
 	file.write(toAdd->getName().c_str(), sizeName);
 
@@ -123,4 +126,15 @@ void  Menu::writeMovie(Movie* toAdd){
 
 	file.close();
 
+}
+
+Movie Menu::loadMovie(){
+	ifstream file(NAMEFILE, ifstream::binary);
+	
+	while(file.good()){
+		unsigned char c = file.get(); 
+		cout<<c<<" value : "<<(long)c<<endl;
+	}
+
+	file.close();
 }

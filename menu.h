@@ -54,7 +54,7 @@ public:
 
 /// to manage file directly
 	void writeMovie(Movie*);
-	Movie readMovie();
+	Movie loadMovie();
 
 
 	Movie captureMovie();
