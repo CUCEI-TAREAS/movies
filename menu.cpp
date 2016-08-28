@@ -69,7 +69,7 @@ void Menu::addMovie(){
 	cin.get();
 }
 
-// show all movies except hidden movies
+// show all movies except status movies
 void Menu::showMovies(){
 	loadMovie();
 
@@ -132,15 +132,20 @@ void  Menu::writeMovie(Movie* toAdd){
 Movie Menu::loadMovie(){
 	ifstream file(NAMEFILE, ifstream::binary);
 	
+	char title = 0;
+
 	while(file.good()){
-		unsigned char c, hidden = file.get();
+		unsigned char status = file.get();
 		long temp = 0;
 
-		if(hidden == '1'){
-			cout<<"1"<<endl;
-		} else if(hidden == '0'){
-			cout<<"0"<<endl;			
+		if(status == '1'){
+			if(title == 0)
+				cout<<"NAME\t\t"<<"CATEGORY\t\t"<<"YEAR\t\t"<<endl<<endl;			
+		
+		} else if(status == '0'){
+						
 		} 
+		
 		
 		// size name of movie		
 		temp = (long)file.get();
@@ -168,8 +173,8 @@ Movie Menu::loadMovie(){
 		while(temp--)
 			cout<<"value temp "<<temp<<" "<<(char)file.get()<<endl;
 
-
-
+		if( (char)file.get() < 0)
+			break;
 	}
 
 	file.close();
