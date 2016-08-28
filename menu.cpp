@@ -69,6 +69,7 @@ void Menu::addMovie(){
 	cin.get();
 }
 
+// show all movies except hidden movies
 void Menu::showMovies(){
 	loadMovie();
 
@@ -112,7 +113,7 @@ void  Menu::writeMovie(Movie* toAdd){
 	
 	// flags to hide 0
 	// by default 1 
-	file.write("0", 1);
+	file.write("1", 1);
 	
 	// movie data
 	file.write(&sizeName, 1);
@@ -132,8 +133,43 @@ Movie Menu::loadMovie(){
 	ifstream file(NAMEFILE, ifstream::binary);
 	
 	while(file.good()){
-		unsigned char c = file.get(); 
-		cout<<c<<" value : "<<(long)c<<endl;
+		unsigned char c, hidden = file.get();
+		long temp = 0;
+
+		if(hidden == '1'){
+			cout<<"1"<<endl;
+		} else if(hidden == '0'){
+			cout<<"0"<<endl;			
+		} 
+		
+		// size name of movie		
+		temp = (long)file.get();
+		cout<<"size of name "<<temp<<endl<<endl;
+		
+		cin.get();
+		cin.get();
+		cin.get();
+
+		while(temp--)
+			cout<<"value temp "<<temp<<" "<<(char)file.get()<<endl;
+
+		// size category of movie		
+		temp = (long)file.get();
+		cout<<"size of category "<<temp<<endl<<endl;
+
+		while(temp--)
+			cout<<"value temp "<<temp<<" "<<(char)file.get()<<endl;
+
+
+		// size year of movie		
+		temp = (long)file.get();
+		cout<<"size of year "<<temp<<endl<<endl;
+
+		while(temp--)
+			cout<<"value temp "<<temp<<" "<<(char)file.get()<<endl;
+
+
+
 	}
 
 	file.close();
