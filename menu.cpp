@@ -26,7 +26,7 @@ void Menu::doAction(char option){
 
 	switch(option){
 		case ADD_MOVIE : addMovie(); break;
-		case SHOW_MOVIES : addMovie(); break;
+		case SHOW_MOVIES : showMovies(); break;
 		case SEARCH_MOVIE : addMovie(); break;
 		case MODIFY_MOVIE : addMovie(); break;
 		case DELETE : addMovie(); break;
@@ -65,8 +65,16 @@ void Menu::addMovie(){
 
 	Movie movieToAdd = captureMovie();
 	writeMovie(&movieToAdd);
+	cout<<"\nMOVIE ADDED SUCCESS!"<<endl;
+	cin.get();
 }
 
+void Menu::showMovies(){
+	ifstream file(NAMEFILE, ifstream::app);
+	file.open();
+	
+	file.close();
+}
 /// FIX: how to read directly ?
 /// search in the file if is duplicated by 
 Movie Menu::captureMovie(){
