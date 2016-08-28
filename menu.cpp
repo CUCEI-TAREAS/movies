@@ -82,13 +82,11 @@ Movie Menu::captureMovie(){
 	movieToAdd.setName(temp);
 
 	cout<<"write category of movie : ";
-	cin.ignore();
 	cin.clear();
 	getline(cin, temp);
 	movieToAdd.setCategory(temp);
 
 	cout<<"write year of movie : ";
-	cin.ignore();
 	cin.clear();
 	getline(cin, temp);	
 	movieToAdd.setYear(temp);
@@ -98,22 +96,22 @@ Movie Menu::captureMovie(){
 
 void  Menu::writeMovie(Movie* toAdd){		
 
+	char sizeName, sizeCate, sizeYear;
 
-	char size[3];
-	size[0] = toAdd->getName().length();
-	size[1] = toAdd->getCategory().length();
-	size[2] = toAdd->getYear().length();
+	sizeName = toAdd->getName().length();
+	sizeCate = toAdd->getCategory().length();
+	sizeYear = toAdd->getYear().length();
 
 	ofstream file(NAMEFILE, ofstream::app);
 	
-	file.write(&size[0], 1);
-	file.write(toAdd->getName().c_str(), size[0]);
+	file.write(&sizeName, 1);
+	file.write(toAdd->getName().c_str(), sizeName);
 
-	file.write(&size[1], 1);
-	file.write(toAdd->getCategory().c_str(), size[1]);
+	file.write(&sizeCate, 1);
+	file.write(toAdd->getCategory().c_str(), sizeCate);
 
-	file.write(&size[2], 1);
-	file.write(toAdd->getYear().c_str(), size[2]);
+	file.write(&sizeYear, 1);
+	file.write(toAdd->getYear().c_str(), sizeYear);
 
 	file.close();
 
