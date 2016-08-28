@@ -2,27 +2,26 @@
 #define MOVIE_H_INCLUDED
 
 #include <string.h>
-// SEARCH FOR NAME
+#include <string>
 
 class Movie {
 private:
-	char name[50];
-	char category[50];
-	char year[10];
+	std::string name;
+	std::string category;
+	std::string year;
 
 public:
 
 	Movie();
-	Movie(char[], char[], char[]);
 	~Movie();
 
-	char* getName();
-	char* getCategory();
-	char* getYear();
+	std::string getName();
+	std::string getCategory();
+	std::string getYear();
 
-	void setName(char[]);
-	void setCategory(char[]);
-	void setYear(char[]);
+	void setName(std::string);
+	void setCategory(std::string);
+	void setYear(std::string);
 
 };
 

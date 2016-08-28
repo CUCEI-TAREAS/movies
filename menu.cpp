@@ -70,43 +70,50 @@ void Menu::addMovie(){
 /// FIX: how to read directly ?
 /// search in the file if is duplicated by 
 Movie Menu::captureMovie(){
-	char temp[50];
-	memset(temp, 0, sizeof(temp));
+	
+	cin.ignore();
+	cin.clear();
+
+	string temp;
+	Movie movieToAdd;
 
 	cout<<"write name of movie : ";
-	cin>>temp;
-	
-	Movie movieToAdd;
+	getline(cin, temp);
 	movieToAdd.setName(temp);
 
 	cout<<"write category of movie : ";
-	cin>>temp;
+	cin.ignore();
+	cin.clear();
+	getline(cin, temp);
 	movieToAdd.setCategory(temp);
 
 	cout<<"write year of movie : ";
-	cin>>temp;
+	cin.ignore();
+	cin.clear();
+	getline(cin, temp);	
 	movieToAdd.setYear(temp);
 
 	return movieToAdd;
 }
 
-void  Menu::writeMovie(Movie* toAdd){
-	
+void  Menu::writeMovie(Movie* toAdd){		
+
+
 	char size[3];
-	size[0] = (char) sizeof(toAdd->getName());
-	size[1] = (char) sizeof(toAdd->getCategory());
-	size[2] = (char) sizeof(toAdd->getYear());
+	size[0] = toAdd->getName().length();
+	size[1] = toAdd->getCategory().length();
+	size[2] = toAdd->getYear().length();
 
 	ofstream file(NAMEFILE, ofstream::app);
-
+	
 	file.write(&size[0], 1);
-	file.write(toAdd->getName(), size[0]);
+	file.write(toAdd->getName().c_str(), size[0]);
 
 	file.write(&size[1], 1);
-	file.write(toAdd->getCategory(), size[1]);
+	file.write(toAdd->getCategory().c_str(), size[1]);
 
 	file.write(&size[2], 1);
-	file.write(toAdd->getYear(), size[2]);
+	file.write(toAdd->getYear().c_str(), size[2]);
 
 	file.close();
 

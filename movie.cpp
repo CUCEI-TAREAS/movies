@@ -1,39 +1,36 @@
 #include "movie.h"
 
+using namespace std;
+
 Movie::Movie(){
 }
 
-Movie::Movie(char na[], char catego[], char ye[]){
-	memcpy(name, na, sizeof(na));
-	memcpy(category, catego, sizeof(category));
-	memcpy(year, ye, sizeof(ye));
-}
 
 Movie::~Movie(){
 
 }
 
-char* Movie::getName(){
+string Movie::getName(){
 	return name;
 }
 
-char*  Movie::getCategory(){
+string  Movie::getCategory(){
 	return category;
 }
 
-char*  Movie::getYear(){
+string Movie::getYear(){
 	return year;
 }
 
-void Movie::setName(char na[]){
-	memcpy(name, na, sizeof(na));
+void Movie::setName(string na){
+	name = na;
 }
 
-void Movie::setCategory(char cate[]){
-	memcpy(category, cate, sizeof(cate));
+void Movie::setCategory(string cate){
+	category = cate;
 }
 
-void Movie::setYear(char ye[]){
-	memcpy(year, ye, sizeof(ye));
+void Movie::setYear(string ye){
+	year = ye;
 }
 
