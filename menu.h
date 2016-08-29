@@ -39,6 +39,8 @@
 #define EXIT            '8'
 
 #define ERROR_FILE_MESSAGE "FILE " NAMEFILE " UNAVAILABLE"
+/// max buffer size
+#define MAX_SIZE 1024
 
 class Menu {
 

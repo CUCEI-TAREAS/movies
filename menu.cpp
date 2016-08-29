@@ -83,19 +83,28 @@ Movie Menu::captureMovie(){
 
 	string temp;
 	Movie movieToAdd;
-
+	
+	do{
 	cout<<"write name of movie : ";
 	getline(cin, temp);
+	}while(temp.find_first_not_of(" ") == string::npos);
+	temp = "";
 	movieToAdd.setName(temp);
-
+		
+	do{
 	cout<<"write category of movie : ";
 	cin.clear();
 	getline(cin, temp);
+	}while(temp.find_first_not_of(" ") == string::npos);
+	temp = "";
 	movieToAdd.setCategory(temp);
-
+	
+	do{
 	cout<<"write year of movie : ";
 	cin.clear();
-	getline(cin, temp);	
+	getline(cin, temp);
+	}while(temp.find_first_not_of(" ") == string::npos);
+	temp = "";
 	movieToAdd.setYear(temp);
 
 	return movieToAdd;
@@ -144,67 +153,28 @@ Movie* Menu::loadMovie(){
 	if(!file){
 		/// throw exception
 		cout<<endl<<ERROR_FILE_MESSAGE<<endl;
-		cin.clear();
 		cin.ignore();
 		cin.get();
 		return nullptr;
 	}
 	
-	char title = 0;
+	// temp[0] hidden_normal
+	// temp[1] size_name
 
-	while(!file.eof()){
-		
-		/// first character -> status : 0 hidden / 1 normal
-		/// second character -> sizeName
-		/// name
-		///
+	char temp[MAX_SIZE];
+	memset(temp, 0, MAX_SIZE);
 
+	file.read(temp, 200);
+	
 
-		/// first movie
-		char x;
-		unsigned char statusRead, status = file.read(&x, 1);
-		long temp = 0;
-
-		/*
-		switch (statusRead){			
-		}
-		name
-		*/
-
-		if(status == '1'){
-			
-		/// second character -> sizeName
-			temp = (long)file.get();
-
-			if(title == 0)
-				cout<<"NAME\t\t"<<"CATEGORY\t\t"<<"YEAR\t\t"<<endl<<endl;			
-		
-		} else if(status == '0'){
-			/// second character -> sizeName
-			file.ignore(file.get());	
-		} 
-
-		cout<<"size of name "<<temp<<endl<<endl;
-		
-		while(temp--)
-			cout<<"value temp "<<temp<<" "<<(char)file.get()<<endl;
-
-		// size category of movie		
-		temp = (long)file.get();
-		cout<<"size of category "<<temp<<endl<<endl;
-
-		while(temp--)
-			cout<<"value temp "<<temp<<" "<<(char)file.get()<<endl;
+	file.read(temp, 3);
+	cout<<temp<<endl;
 
 
-		// size year of movie		
-		temp = (long)file.get();
-		cout<<"size of year "<<temp<<endl<<endl;
-
-		while(temp--)
-			cout<<"value temp "<<temp<<" "<<(char)file.get()<<endl;
-
-	}
-			file.close();
+	cin.ignore();	
+	cin.get();
+	
+	
+	file.close();
 
 }
