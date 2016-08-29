@@ -38,6 +38,8 @@
 #define RESTORE_MOVIE   '7'
 #define EXIT            '8'
 
+#define ERROR_FILE_MESSAGE "FILE " NAMEFILE " UNAVAILABLE"
+
 class Menu {
 
 public:
@@ -54,7 +56,7 @@ public:
 
 /// to manage file directly
 	void writeMovie(Movie*);
-	Movie loadMovie();
+	Movie* loadMovie();
 
 
 	Movie captureMovie();

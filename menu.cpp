@@ -103,14 +103,22 @@ Movie Menu::captureMovie(){
 
 void  Menu::writeMovie(Movie* toAdd){		
 
+	ofstream file(NAMEFILE, ofstream::app);
+
+	if(!file){
+		/// throw exception
+		cout<<ERROR_FILE_MESSAGE<<endl;
+		cin.ignore();
+		cin.get();
+		return;
+	}
+	
 	char sizeName, sizeCate, sizeYear;
 
 	sizeName = toAdd->getName().length();
 	sizeCate = toAdd->getCategory().length();
 	sizeYear = toAdd->getYear().length();
 
-	ofstream file(NAMEFILE, ofstream::app);
-	
 	// flags to hide 0
 	// by default 1 
 	file.write("1", 1);
@@ -129,32 +137,57 @@ void  Menu::writeMovie(Movie* toAdd){
 
 }
 
-Movie Menu::loadMovie(){
+Movie* Menu::loadMovie(){
+
 	ifstream file(NAMEFILE, ifstream::binary);
+
+	if(!file){
+		/// throw exception
+		cout<<endl<<ERROR_FILE_MESSAGE<<endl;
+		cin.clear();
+		cin.ignore();
+		cin.get();
+		return nullptr;
+	}
 	
 	char title = 0;
 
-	while(file.good()){
-		unsigned char status = file.get();
+	while(!file.eof()){
+		
+		/// first character -> status : 0 hidden / 1 normal
+		/// second character -> sizeName
+		/// name
+		///
+		
+		
+
+
+		/// first movie
+		unsigned char statusRead, status = file.get();
 		long temp = 0;
 
+		/*
+		switch (statusRead){
+			
+		}
+		name
+		*/
+
 		if(status == '1'){
+			
+		/// second character -> sizeName
+			temp = (long)file.get();
+
 			if(title == 0)
 				cout<<"NAME\t\t"<<"CATEGORY\t\t"<<"YEAR\t\t"<<endl<<endl;			
 		
 		} else if(status == '0'){
-						
+			/// second character -> sizeName
+			file.ignore(file.get());	
 		} 
-		
-		
-		// size name of movie		
-		temp = (long)file.get();
+
 		cout<<"size of name "<<temp<<endl<<endl;
 		
-		cin.get();
-		cin.get();
-		cin.get();
-
 		while(temp--)
 			cout<<"value temp "<<temp<<" "<<(char)file.get()<<endl;
 
@@ -173,9 +206,7 @@ Movie Menu::loadMovie(){
 		while(temp--)
 			cout<<"value temp "<<temp<<" "<<(char)file.get()<<endl;
 
-		if( (char)file.get() < 0)
-			break;
 	}
+			file.close();
 
-	file.close();
 }
