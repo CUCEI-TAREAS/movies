@@ -158,17 +158,15 @@ Movie* Menu::loadMovie(){
 		/// second character -> sizeName
 		/// name
 		///
-		
-		
 
 
 		/// first movie
-		unsigned char statusRead, status = file.get();
+		char x;
+		unsigned char statusRead, status = file.read(&x, 1);
 		long temp = 0;
 
 		/*
-		switch (statusRead){
-			
+		switch (statusRead){			
 		}
 		name
 		*/
