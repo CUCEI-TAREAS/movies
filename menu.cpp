@@ -50,6 +50,7 @@ void Menu::mainMenu(){
 		if(option < ADD_MOVIE or option > EXIT ){
 			cout<<option<<" invalid option"<<endl;
 			cin.ignore();
+			cin.clear();
 			cin.get();
 		}
 		doAction(option);
@@ -88,24 +89,24 @@ Movie Menu::captureMovie(){
 	cout<<"write name of movie : ";
 	getline(cin, temp);
 	}while(temp.find_first_not_of(" ") == string::npos);
-	temp = "";
 	movieToAdd.setName(temp);
+	temp = "";
 		
 	do{
 	cout<<"write category of movie : ";
 	cin.clear();
 	getline(cin, temp);
 	}while(temp.find_first_not_of(" ") == string::npos);
-	temp = "";
 	movieToAdd.setCategory(temp);
+	temp = "";
 	
 	do{
 	cout<<"write year of movie : ";
 	cin.clear();
 	getline(cin, temp);
 	}while(temp.find_first_not_of(" ") == string::npos);
-	temp = "";
 	movieToAdd.setYear(temp);
+	temp = "";
 
 	return movieToAdd;
 }
@@ -160,21 +161,22 @@ Movie* Menu::loadMovie(){
 	
 	// temp[0] hidden_normal
 	// temp[1] size_name
-
-	char temp[MAX_SIZE];
-	memset(temp, 0, MAX_SIZE);
-
-	file.read(temp, 200);
+	
+	string temp;
+	char tempSource[MAX_SIZE];
+	memset(tempSource, 0, MAX_SIZE);
+	
+	file.read(tempSource, 2);
 	
 
-	file.read(temp, 3);
-	cout<<temp<<endl;
-
+	file.read(tempSource, 3);
+	
+	Movie* myMovie = new Movie();
+	myMovie->setName(temp);
 
 	cin.ignore();	
 	cin.get();
-	
-	
+		
 	file.close();
 
 }
