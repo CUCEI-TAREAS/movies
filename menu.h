@@ -57,8 +57,13 @@ public:
 /// to manage file directly
 	void writeMovie(std::ofstream*, Movie*); /// write end of file
 	void writeMovie(std::ofstream*, Movie*, int); /// write movie in give position
-	Movie* loadMovie(std::ifstream*, int, int); /// indicate position started movie to load // indicate size file to calculate buffer
 
+/// indicate position started movie to load // indicate size file to calculate buffer // pointer position to next movie
+	Movie* loadMovie(std::ifstream*, unsigned long, unsigned long, unsigned long*);
+	Movie* loadMovie(std::ifstream*, unsigned long, unsigned long*);
+	
+/// indicate position started movie to load THEN in the same pointer SAVE position to next movie // indicate size file to calculate buffer // 
+	Movie* loadMovie(std::ifstream*, unsigned long*, unsigned long*);
 
 	Movie* captureMovie();
 };
