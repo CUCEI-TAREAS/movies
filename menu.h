@@ -39,8 +39,6 @@
 #define EXIT            '8'
 
 #define ERROR_FILE_MESSAGE "FILE " NAMEFILE " UNAVAILABLE"
-/// max buffer size
-#define MAX_SIZE 1024
 
 class Menu {
 
@@ -57,11 +55,12 @@ public:
 	void searchMovie();
 
 /// to manage file directly
-	void writeMovie(Movie*);
-	Movie* loadMovie();
+	void writeMovie(std::ofstream*, Movie*); /// write end of file
+	void writeMovie(std::ofstream*, Movie*, int); /// write movie in give position
+	Movie* loadMovie(std::ifstream*, int, int); /// indicate position started movie to load // indicate size file to calculate buffer
 
 
-	Movie captureMovie();
+	Movie* captureMovie();
 };
 
 #endif // MENU_H_INCLUDED

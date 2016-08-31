@@ -3,11 +3,15 @@
 using namespace std;
 
 Movie::Movie(){
+    status =  1;
 }
 
 
 Movie::~Movie(){
+}
 
+char Movie::getStatus(){
+    return status;
 }
 
 string Movie::getName(){
@@ -20,6 +24,9 @@ string  Movie::getCategory(){
 
 string Movie::getYear(){
 	return year;
+}
+void Movie::setSatus(char s){
+    status = s;
 }
 
 void Movie::setName(string na){

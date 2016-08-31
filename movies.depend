@@ -1,0 +1,25 @@
+# depslib dependency file v1.0
+1472576430 source:c:\users\fruizgax\downloads\movies-master\main.cpp
+	<iostream>
+	<cstdlib>
+	"menu.h"
+	"movie.h"
+
+1472605807 c:\users\fruizgax\downloads\movies-master\menu.h
+	<iostream>
+	<fstream>
+	<string>
+	<string.h>
+	<cstdlib>
+	"movie.h"
+
+1472606111 c:\users\fruizgax\downloads\movies-master\movie.h
+	<string.h>
+	<string>
+
+1472576430 source:c:\users\fruizgax\downloads\movies-master\movie.cpp
+	"movie.h"
+
+1472606111 source:c:\users\fruizgax\downloads\movies-master\menu.cpp
+	"menu.h"
+

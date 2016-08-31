@@ -64,56 +64,7 @@ void Menu::addMovie(){
 	system(CLEAR);
 	cout<<TITLE_ADD_MOVIE<<endl<<endl;
 
-	Movie movieToAdd = captureMovie();
-	writeMovie(&movieToAdd);
-	cout<<"\nMOVIE ADDED SUCCESS!"<<endl;
-	cin.get();
-}
-
-// show all movies except status movies
-void Menu::showMovies(){
-	loadMovie();
-
-}
-/// FIX: how to read directly ?
-/// search in the file if is duplicated by 
-Movie Menu::captureMovie(){
-	
-	cin.ignore();
-	cin.clear();
-
-	string temp;
-	Movie movieToAdd;
-	
-	do{
-	cout<<"write name of movie : ";
-	getline(cin, temp);
-	}while(temp.find_first_not_of(" ") == string::npos);
-	movieToAdd.setName(temp);
-	temp = "";
-		
-	do{
-	cout<<"write category of movie : ";
-	cin.clear();
-	getline(cin, temp);
-	}while(temp.find_first_not_of(" ") == string::npos);
-	movieToAdd.setCategory(temp);
-	temp = "";
-	
-	do{
-	cout<<"write year of movie : ";
-	cin.clear();
-	getline(cin, temp);
-	}while(temp.find_first_not_of(" ") == string::npos);
-	movieToAdd.setYear(temp);
-	temp = "";
-
-	return movieToAdd;
-}
-
-void  Menu::writeMovie(Movie* toAdd){		
-
-	ofstream file(NAMEFILE, ofstream::app);
+    ofstream file(NAMEFILE, ofstream::app);
 
 	if(!file){
 		/// throw exception
@@ -122,61 +73,114 @@ void  Menu::writeMovie(Movie* toAdd){
 		cin.get();
 		return;
 	}
-	
-	char sizeName, sizeCate, sizeYear;
 
-	sizeName = toAdd->getName().length();
-	sizeCate = toAdd->getCategory().length();
-	sizeYear = toAdd->getYear().length();
 
-	// flags to hide 0
-	// by default 1 
-	file.write("1", 1);
-	
-	// movie data
-	file.write(&sizeName, 1);
-	file.write(toAdd->getName().c_str(), sizeName);
-
-	file.write(&sizeCate, 1);
-	file.write(toAdd->getCategory().c_str(), sizeCate);
-
-	file.write(&sizeYear, 1);
-	file.write(toAdd->getYear().c_str(), sizeYear);
-
+	writeMovie(&file, captureMovie());
 	file.close();
-
+	cout<<"\nMOVIE ADDED SUCCESS!"<<endl;
+	cin.get();
 }
 
-Movie* Menu::loadMovie(){
+// show all movies except status movies
+void Menu::showMovies(){
 
-	ifstream file(NAMEFILE, ifstream::binary);
+    ifstream file(NAMEFILE, std::ifstream::ate | ifstream::binary);
 
 	if(!file){
 		/// throw exception
 		cout<<endl<<ERROR_FILE_MESSAGE<<endl;
 		cin.ignore();
 		cin.get();
-		return nullptr;
+		return;
 	}
-	
-	// temp[0] hidden_normal
-	// temp[1] size_name
-	
-	string temp;
-	char tempSource[MAX_SIZE];
-	memset(tempSource, 0, MAX_SIZE);
-	
-	file.read(tempSource, 2);
-	
+    unsigned long fileSize = file.tellg();
 
-	file.read(tempSource, 3);
-	
+    Movie* tempMovie;
+
+    loadMovie(&file, 0, fileSize);
+    /// iterative cycle to print all movies
+
+    file.close();
+}
+/// FIX: how to read directly ?
+/// search in the file if is duplicated by
+Movie* Menu::captureMovie(){
+
+	cin.ignore();
+	cin.clear();
+
+	string temp;
+	Movie* movieToAdd;
+
+	do{
+	cout<<"write name of movie : ";
+	getline(cin, temp);
+	}while(temp.find_first_not_of(" ") == string::npos);
+	movieToAdd->setName(temp);
+	temp = "";
+
+	do{
+	cout<<"write category of movie : ";
+	cin.clear();
+	getline(cin, temp);
+	}while(temp.find_first_not_of(" ") == string::npos);
+	movieToAdd->setCategory(temp);
+	temp = "";
+
+	do{
+	cout<<"write year of movie : ";
+	cin.clear();
+	getline(cin, temp);
+	}while(temp.find_first_not_of(" ") == string::npos);
+	movieToAdd->setYear(temp);
+	temp = "";
+
+	return movieToAdd;
+}
+
+void  Menu::writeMovie(ofstream* file, Movie* toAdd){
+
+	char sizeName, sizeCate, sizeYear, statusM;
+
+    statusM = toAdd->getStatus();
+	sizeName = toAdd->getName().length();
+	sizeCate = toAdd->getCategory().length();
+	sizeYear = toAdd->getYear().length();
+	// flags to hide 0
+	// by default 1
+	file->write(&statusM, 1);
+
+	// movie data
+	file->write(&sizeName, 1);
+	file->write(toAdd->getName().c_str(), sizeName);
+
+	file->write(&sizeCate, 1);
+	file->write(toAdd->getCategory().c_str(), sizeCate);
+
+	file->write(&sizeYear, 1);
+	file->write(toAdd->getYear().c_str(), sizeYear);
+
+}
+
+Movie* Menu::loadMovie(std::ifstream* file, int position, int fileSize){
+
+
+	// temp[0] hidden_normal
+	// temp[1] size_name (int)
+
+	string temp;
+	char tempSource[fileSize];
+	memset(tempSource, 0, fileSize);
+
+    // read first movie
+	file->read(tempSource, 2);
+    //temp = tempSource[2]
+    //	file.read(tempSource, 3);
+
 	Movie* myMovie = new Movie();
 	myMovie->setName(temp);
 
-	cin.ignore();	
+	cin.ignore();
 	cin.get();
-		
-	file.close();
 
 }
