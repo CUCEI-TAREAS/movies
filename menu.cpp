@@ -110,7 +110,7 @@ Movie* Menu::captureMovie(){
 	cin.clear();
 
 	string temp;
-	Movie* movieToAdd;
+	Movie* movieToAdd = new Movie();
 
 	do{
 	cout<<"write name of movie : ";
