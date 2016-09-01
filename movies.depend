@@ -23,3 +23,27 @@
 1472606111 source:c:\users\fruizgax\downloads\movies-master\menu.cpp
 	"menu.h"
 
+1472660444 source:c:\users\fruizgax\downloads\movies-master (2)\movies-master\main.cpp
+	<iostream>
+	<cstdlib>
+	"menu.h"
+	"movie.h"
+
+1472683508 c:\users\fruizgax\downloads\movies-master (2)\movies-master\menu.h
+	<iostream>
+	<fstream>
+	<string>
+	<string.h>
+	<cstdlib>
+	"movie.h"
+
+1472660444 c:\users\fruizgax\downloads\movies-master (2)\movies-master\movie.h
+	<string.h>
+	<string>
+
+1472660444 source:c:\users\fruizgax\downloads\movies-master (2)\movies-master\movie.cpp
+	"movie.h"
+
+1472696738 source:c:\users\fruizgax\downloads\movies-master (2)\movies-master\menu.cpp
+	"menu.h"
+

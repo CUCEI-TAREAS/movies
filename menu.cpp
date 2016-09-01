@@ -95,10 +95,14 @@ void Menu::showMovies(){
 	}
 
     unsigned long fileSize = (unsigned long )file.tellg(); /// cast for streampos is returned
-	unsigned long* positionMovie = new unsigned long(0);
+	unsigned long* positionMovie = new unsigned long(START_FIRST_MOVIE);
     Movie* tempMovie = nullptr;
 
-    loadMovie(&file, positionMovie, &fileSize);
+    do{
+        tempMovie = loadMovie(&file, positionMovie, &fileSize);
+        // COUT A MOVIE // OVERWRITE stream <<
+
+    }while(tempMovie != nullptr);
     /// iterative cycle to print all movies
 
     file.close();
@@ -174,16 +178,38 @@ Movie* Menu::loadMovie(std::ifstream* file, unsigned long* position, unsigned lo
 	memset(tempSource, 0, *fileSize);
 
     // read first movie
-	file->read(tempSource, 2);
+    file->seekg(2);
+    file->read(tempSource, 1);
+
+    short x = file->tellg();
+
+    if(x < 0){
+        /// throw exeption
+        return nullptr;
+    }
+
+    cout<<tempSource<<endl<<endl<<x;
+
+    file->seekg(x);
+    file->read(tempSource, 2);
+
     //temp = tempSource[2]
     //	file.read(tempSource, 3);
+    x = file->tellg();
 
+    file->seekg(0);
+    file->read(tempSource, 2);
+
+    x = file->tellg();
+    /// dont move now
 	Movie* myMovie = new Movie();
 	myMovie->setName(temp);
 
 	cin.ignore();
 	cin.get();
-	
+
+	/// validations to return null
+
 	return myMovie;
 
 }
