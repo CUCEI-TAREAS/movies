@@ -16,12 +16,12 @@ public:
 	Movie();
 	~Movie();
 
-    char getStatus();
+    	char getStatus();
 	std::string getName();
 	std::string getCategory();
 	std::string getYear();
 
-    void setSatus(char);
+    	void setStatus(char);
 	void setName(std::string);
 	void setCategory(std::string);
 	void setYear(std::string);

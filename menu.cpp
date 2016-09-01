@@ -59,7 +59,7 @@ void Menu::mainMenu(){
 
 /// search the NAME movie in the file [duplicate()] []
 /// if name movie dont exist, is posibnle write...
-/// else, message is show that is duplicate
+/// else, throw exception ¡is duplicate!
 void Menu::addMovie(){
 	system(CLEAR);
 	cout<<TITLE_ADD_MOVIE<<endl<<endl;
@@ -153,63 +153,83 @@ void  Menu::writeMovie(ofstream* file, Movie* toAdd){
 	sizeYear = toAdd->getYear().length();
 	// flags to hide 0
 	// by default 1
-	file->write(&statusM, 1);
+	file->write(&statusM, SIZE_DIMENSION_FILE);
 
 	// movie data
-	file->write(&sizeName, 1);
+	file->write(&sizeName, SIZE_DIMENSION_FILE);
 	file->write(toAdd->getName().c_str(), sizeName);
 
-	file->write(&sizeCate, 1);
+	file->write(&sizeCate, SIZE_DIMENSION_FILE);
 	file->write(toAdd->getCategory().c_str(), sizeCate);
 
-	file->write(&sizeYear, 1);
+	file->write(&sizeYear, SIZE_DIMENSION_FILE);
 	file->write(toAdd->getYear().c_str(), sizeYear);
 
 }
 
 Movie* Menu::loadMovie(std::ifstream* file, unsigned long* position, unsigned long* fileSize){
+	
+	// file->tellg() IMPROVE... 
+	// VALIDATION EACH CALL
 
-
-	// temp[0] hidden_normal status
-	// temp[1] size_name (int)
+	if(*position == *fileSize)
+		return nullptr;
 
 	string temp;
+	unsigned long tempDimension;
 	char tempSource[*fileSize];
 	memset(tempSource, 0, *fileSize);
+ 	Movie* myMovie = nullptr;
 
-    // read first movie
-    file->seekg(2);
-    file->read(tempSource, 1);
+	// temp[0] hidden_normal status
+	file->seekg(*position);
+	file->read(tempSource, SIZE_DIMENSION_FILE);
+	
+	/// validation if return nullptr
 
-    short x = file->tellg();
-
-    if(x < 0){
-        /// throw exeption
-        return nullptr;
-    }
-
-    cout<<tempSource<<endl<<endl<<x;
-
-    file->seekg(x);
-    file->read(tempSource, 2);
-
-    //temp = tempSource[2]
-    //	file.read(tempSource, 3);
-    x = file->tellg();
-
-    file->seekg(0);
-    file->read(tempSource, 2);
-
-    x = file->tellg();
-    /// dont move now
-	Movie* myMovie = new Movie();
+	myMovie = new Movie();
+	myMovie->setStatus(tempSource[0]);
+			
+	// temp[1] size_name (long)
+	memset(tempSource, 0, *fileSize);
+	file->seekg(file->tellg());
+	file->read(tempSource, SIZE_DIMENSION_FILE);
+	
+	tempDimension =(long)tempSource[0];
+	
+	memset(tempSource, 0, *fileSize);
+	file->read(tempSource, tempDimension);
+	
+	temp = tempSource;
 	myMovie->setName(temp);
+	
+	// temp[2] size_category (long)
+	memset(tempSource, 0, *fileSize);
+	file->seekg(file->tellg());
+	file->read(tempSource, SIZE_DIMENSION_FILE);
+	
+	tempDimension =(long)tempSource[0];
+	
+	memset(tempSource, 0, *fileSize);
+	file->read(tempSource, tempDimension);
+	
+	temp = tempSource;
+	myMovie->setCategory(temp);
 
-	cin.ignore();
-	cin.get();
-
-	/// validations to return null
+	// temp[3] size_year (long)
+	memset(tempSource, 0, *fileSize);
+	file->seekg(file->tellg());
+	file->read(tempSource, SIZE_DIMENSION_FILE);
+	
+	tempDimension =(long)tempSource[0];
+	
+	memset(tempSource, 0, *fileSize);
+	file->read(tempSource, tempDimension);
+	
+	temp = tempSource;
+	myMovie->setYear(temp);
+	
+	*position = file->tellg();
 
 	return myMovie;
-
 }

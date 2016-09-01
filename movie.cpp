@@ -25,7 +25,7 @@ string  Movie::getCategory(){
 string Movie::getYear(){
 	return year;
 }
-void Movie::setSatus(char s){
+void Movie::setStatus(char s){
     status = s;
 }
 
