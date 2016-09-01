@@ -27,7 +27,7 @@ void Menu::doAction(char option){
 	switch(option){
 		case ADD_MOVIE : addMovie(); break;
 		case SHOW_MOVIES : showMovies(); break;
-		case SEARCH_MOVIE : break;
+		case SEARCH_MOVIE : searchMovie(); break;
 		case MODIFY_MOVIE : break;
 		case DELETE : break;
 		case HIDDEN_MOVIE : break;
@@ -83,6 +83,8 @@ void Menu::addMovie(){
 
 // show all movies except status movies
 void Menu::showMovies(){
+	system(CLEAR);
+	cout<<TITLE_SHOW_MOVIES<<endl<<endl;
 
     ifstream file(NAMEFILE, std::ifstream::ate | ifstream::binary);
 
@@ -94,19 +96,46 @@ void Menu::showMovies(){
 		return;
 	}
 
-    unsigned long fileSize = (unsigned long )file.tellg(); /// cast for streampos is returned
+	unsigned long fileSize = (unsigned long )file.tellg(); /// cast for streampos is returned
 	unsigned long* positionMovie = new unsigned long(START_FIRST_MOVIE);
-    Movie* tempMovie = nullptr;
-
-    do{
-        tempMovie = loadMovie(&file, positionMovie, &fileSize);
-        // COUT A MOVIE // OVERWRITE stream <<
-
-    }while(tempMovie != nullptr);
-    /// iterative cycle to print all movies
+	Movie* tempMovie = nullptr;
+	
+	cout<<" NAME\t"<<"CATEGORY\t"<<"YEAR"<<endl;
+	tempMovie = loadMovie(&file, positionMovie, &fileSize);
+	while(tempMovie != nullptr){	
+		cout<<tempMovie->getName();
+		cout<<"\t\t\t\t"<<tempMovie->getCategory();
+		cout<<"\t\t\t\t"<<tempMovie->getYear()<<endl;
+		tempMovie = nullptr;
+		tempMovie = loadMovie(&file, positionMovie, &fileSize);
+	}
+			
+		cin.ignore();
+		cin.get();
+	
+	/// iterative cycle to print all movies
 
     file.close();
 }
+
+void Menu::searchMovie(){
+	system(CLEAR);
+	cout<<TITLE_SEARCH_MOVIE<<endl<<endl;
+	
+	cin.ignore();
+	cin.clear();
+
+	string temp;
+	//Movie* movieToAdd = new Movie();
+
+	do{
+	cout<<"write name of movie : ";
+	getline(cin, temp);
+	}while(temp.find_first_not_of(" ") == string::npos);
+	
+	
+}
+
 /// FIX: how to read directly ?
 /// search in the file if is duplicated by
 Movie* Menu::captureMovie(){
@@ -147,7 +176,7 @@ void  Menu::writeMovie(ofstream* file, Movie* toAdd){
 
 	char sizeName, sizeCate, sizeYear, statusM;
 
-    statusM = toAdd->getStatus();
+    	statusM = toAdd->getStatus();
 	sizeName = toAdd->getName().length();
 	sizeCate = toAdd->getCategory().length();
 	sizeYear = toAdd->getYear().length();
@@ -233,3 +262,10 @@ Movie* Menu::loadMovie(std::ifstream* file, unsigned long* position, unsigned lo
 
 	return myMovie;
 }
+
+Movie* Menu::searchMovie(ifstream *file, string name){
+
+	return nullptr;
+}
+
+

@@ -53,9 +53,10 @@ public:
 	void mainMenu(void);
 
 	void addMovie(void);
-	void showMovies();
-	void searchMovie();
-
+	void showMovies(void);
+	void searchMovie(void);
+	
+	Movie* searchMovie(std::ifstream*, std::string); /// seek for name
 /// to manage file directly
 	void writeMovie(std::ofstream*, Movie*); /// write end of file
 	void writeMovie(std::ofstream*, Movie*, int); /// write movie in give position
