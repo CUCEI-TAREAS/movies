@@ -86,7 +86,7 @@ void Menu::showMovies(){
 	system(CLEAR);
 	cout<<TITLE_SHOW_MOVIES<<endl<<endl;
 
-    ifstream file(NAMEFILE, std::ifstream::ate | ifstream::binary);
+    	ifstream file(NAMEFILE, std::ifstream::ate | ifstream::binary);
 
 	if(!file){
 		/// throw exception
@@ -100,14 +100,14 @@ void Menu::showMovies(){
 	unsigned long* positionMovie = new unsigned long(START_FIRST_MOVIE);
 	Movie* tempMovie = nullptr;
 	
-	cout<<" NAME\t"<<"CATEGORY\t"<<"YEAR"<<endl;
+	cout<<" NAME\t\t\t\t\t"<<"CATEGORY\t\t\t\t\t"<<"YEAR"<<endl;
 	tempMovie = loadMovie(&file, positionMovie, &fileSize);
 	while(tempMovie != nullptr){	
 		cout<<tempMovie->getName();
 		cout<<"\t\t\t\t"<<tempMovie->getCategory();
 		cout<<"\t\t\t\t"<<tempMovie->getYear()<<endl;
-		tempMovie = nullptr;
 		tempMovie = loadMovie(&file, positionMovie, &fileSize);
+		
 	}
 			
 		cin.ignore();
