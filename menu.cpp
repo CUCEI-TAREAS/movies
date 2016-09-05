@@ -35,6 +35,7 @@ void Menu::doAction(char option) {
 		searchMovie();
 		break;
 	case MODIFY_MOVIE :
+		modifyMovie();
 		break;
 	case DELETE :
 		break;
@@ -75,7 +76,7 @@ void Menu::addMovie() {
 	system(CLEAR);
 	cout<<TITLE_ADD_MOVIE<<endl<<endl;
 
-	ofstream file(NAMEFILE, ofstream::app);
+	ifstream file(NAMEFILE, std::ifstream::ate | ifstream::binary);
 
 	if(!file) {
 /// throw exception
@@ -84,11 +85,37 @@ void Menu::addMovie() {
 		cin.get();
 		return;
 	}
+	Movie * movieToAdd = nullptr, * tempMovie = nullptr;
+	movieToAdd = captureMovie();
 
+	/// SEARCH FOR DUPLICATED NAME IN FILE EXIST
 
-	writeMovie(&file, captureMovie());
+	tempMovie =  searchMovie(&file, movieToAdd->getName());
+
 	file.close();
-	cout<<"\nMOVIE ADDED SUCCESS!"<<endl;
+	if(tempMovie != nullptr) {
+
+		cout<<MESSAGE_MOVIE_FOUND<<endl<<endl;
+		cout<<MESSAGE_MOVIE_DUPLICATED<<endl<<endl;
+
+		PRINT_TITLES_MOVIES
+		cout<<tempMovie->getName();
+		cout<<"\t\t\t"<<tempMovie->getCategory();
+		cout<<"\t\t\t"<<tempMovie->getYear()<<endl;
+
+	} else {
+
+		ofstream file(NAMEFILE, ofstream::app);
+		writeMovie(&file, movieToAdd);
+		cout<<"\n"<<MOVIE_ADDED_SUCCESSFULLY<<endl;
+        file.close();
+
+	}
+	tempMovie = movieToAdd = nullptr;
+	delete tempMovie;
+	delete movieToAdd;
+
+	cin.ignore();
 	cin.get();
 }
 
@@ -156,7 +183,7 @@ void Menu::searchMovie() {
 
 	if(tempMovie != nullptr) {
 
-		cout<<MESSAGE_MOVIE_NOT_FOUND<<endl<<endl;
+		cout<<MESSAGE_MOVIE_FOUND<<endl<<endl;
 
 		PRINT_TITLES_MOVIES
 		cout<<tempMovie->getName();
@@ -201,12 +228,14 @@ void Menu::modifyMovie() {
 
 	if(tempMovie != nullptr) {
 
-		cout<<MESSAGE_MOVIE_NOT_FOUND<<endl<<endl;
+		cout<<MESSAGE_MOVIE_FOUND<<endl<<endl;
 
 		PRINT_TITLES_MOVIES
 		cout<<tempMovie->getName();
 		cout<<"\t\t\t"<<tempMovie->getCategory();
 		cout<<"\t\t\t"<<tempMovie->getYear()<<endl;
+
+
 
 	} else cout<<MESSAGE_MOVIE_NOT_FOUND;
 
