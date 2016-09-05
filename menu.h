@@ -64,6 +64,9 @@ public:
 	void modifyMovie(void);
 
 	Movie* searchMovie(std::ifstream*, std::string); /// seek for name /// since begin -ends
+
+	/// seek for name /// if movie is found long pointer indicate position / ALSO indicate position to start to search
+	Movie* searchMovie(std::ifstream*, std::string, unsigned long*);
 /// to manage file directly
 	void writeMovie(std::ofstream*, Movie*); /// write end of file
 	void writeMovie(std::ofstream*, Movie*, int); /// write movie in give position

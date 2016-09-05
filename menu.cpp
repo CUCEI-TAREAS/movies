@@ -206,7 +206,6 @@ void Menu::modifyMovie() {
 	cin.ignore();
 	cin.clear();
 	string temp;
-//Movie* movieToAdd = new Movie();
 
 	do {
 		cout<<"write name of movie : ";
@@ -389,6 +388,30 @@ Movie* Menu::searchMovie(ifstream *file, string name) {
 		tempMovie = nullptr;
 		tempMovie = loadMovie(file, positionMovie, &fileSize);
 	}
+
+    positionMovie = nullptr;
+    delete positionMovie;
+
+	return tempMovie;
+}
+
+Movie* Menu::searchMovie(ifstream *file, string name, unsigned long* position) {
+
+	unsigned long fileSize = (unsigned long )file->tellg(); /// cast for streampos is returned
+	unsigned long* positionMovie = new unsigned long(START_FIRST_MOVIE);
+	Movie* tempMovie = nullptr;
+
+	tempMovie = loadMovie(file, positionMovie, &fileSize);
+	while(tempMovie != nullptr) {
+		if (tempMovie->getName() == name )
+			return tempMovie;
+
+		tempMovie = nullptr;
+		tempMovie = loadMovie(file, positionMovie, &fileSize);
+	}
+
+    positionMovie = nullptr;
+    delete positionMovie;
 
 	return tempMovie;
 }
