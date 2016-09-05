@@ -2,14 +2,14 @@
 
 using namespace std;
 
-Menu::Menu(){
+Menu::Menu() {
 
 }
 
-Menu::~Menu(){
+Menu::~Menu() {
 }
 
-void Menu::printMenu(){
+void Menu::printMenu() {
 
 	cout<< TITLE_MAIN_MENU<<endl<<endl;
 	cout<< ADD_MOVIE   << TITLE_ADD_MOVIE <<endl;
@@ -22,21 +22,32 @@ void Menu::printMenu(){
 	cout<< EXIT << TITLE_EXIT<<endl<<endl;
 }
 
-void Menu::doAction(char option){
+void Menu::doAction(char option) {
 
-	switch(option){
-		case ADD_MOVIE : addMovie(); break;
-		case SHOW_MOVIES : showMovies(); break;
-		case SEARCH_MOVIE : searchMovie(); break;
-		case MODIFY_MOVIE : break;
-		case DELETE : break;
-		case HIDDEN_MOVIE : break;
-		case RESTORE_MOVIE :break;
-		case EXIT : break;
+	switch(option) {
+	case ADD_MOVIE :
+		addMovie();
+		break;
+	case SHOW_MOVIES :
+		showMovies();
+		break;
+	case SEARCH_MOVIE :
+		searchMovie();
+		break;
+	case MODIFY_MOVIE :
+		break;
+	case DELETE :
+		break;
+	case HIDDEN_MOVIE :
+		break;
+	case RESTORE_MOVIE :
+		break;
+	case EXIT :
+		break;
 	}
 }
 
-void Menu::mainMenu(){
+void Menu::mainMenu() {
 
 	char option;
 	do {
@@ -47,27 +58,27 @@ void Menu::mainMenu(){
 		cout<< "chose a option : ";
 		cin>>option;
 
-		if(option < ADD_MOVIE or option > EXIT ){
+		if(option < ADD_MOVIE or option > EXIT ) {
 			cout<<option<<" invalid option"<<endl;
 			cin.ignore();
 			cin.clear();
 			cin.get();
 		}
 		doAction(option);
-	}while(option != EXIT);
+	} while(option != EXIT);
 }
 
 /// search the NAME movie in the file [duplicate()] []
 /// if name movie dont exist, is posibnle write...
 /// else, throw exception ¡is duplicate!
-void Menu::addMovie(){
+void Menu::addMovie() {
 	system(CLEAR);
 	cout<<TITLE_ADD_MOVIE<<endl<<endl;
 
-    ofstream file(NAMEFILE, ofstream::app);
+	ofstream file(NAMEFILE, ofstream::app);
 
-	if(!file){
-		/// throw exception
+	if(!file) {
+/// throw exception
 		cout<<ERROR_FILE_MESSAGE<<endl;
 		cin.ignore();
 		cin.get();
@@ -82,14 +93,14 @@ void Menu::addMovie(){
 }
 
 // show all movies except status movies
-void Menu::showMovies(){
+void Menu::showMovies() {
 	system(CLEAR);
 	cout<<TITLE_SHOW_MOVIES<<endl<<endl;
 
-    ifstream file(NAMEFILE, std::ifstream::ate | ifstream::binary);
+	ifstream file(NAMEFILE, std::ifstream::ate | ifstream::binary);
 
-	if(!file){
-		/// throw exception
+	if(!file) {
+/// throw exception
 		cout<<endl<<ERROR_FILE_MESSAGE<<endl;
 		cin.ignore();
 		cin.get();
@@ -99,46 +110,116 @@ void Menu::showMovies(){
 	unsigned long fileSize = (unsigned long )file.tellg(); /// cast for streampos is returned
 	unsigned long* positionMovie = new unsigned long(START_FIRST_MOVIE);
 	Movie* tempMovie = nullptr;
-	
-	cout<<" NAME\t"<<"CATEGORY\t"<<"YEAR"<<endl;
+
+	PRINT_TITLES_MOVIES
 	tempMovie = loadMovie(&file, positionMovie, &fileSize);
-	while(tempMovie != nullptr){	
+	while(tempMovie != nullptr) {
 		cout<<tempMovie->getName();
-		cout<<"\t\t\t\t"<<tempMovie->getCategory();
-		cout<<"\t\t\t\t"<<tempMovie->getYear()<<endl;
+		cout<<"\t\t\t"<<tempMovie->getCategory();
+		cout<<"\t\t\t"<<tempMovie->getYear()<<endl;
 		tempMovie = nullptr;
 		tempMovie = loadMovie(&file, positionMovie, &fileSize);
 	}
-			
-		cin.ignore();
-		cin.get();
-	
-	/// iterative cycle to print all movies
 
-    file.close();
+	cin.ignore();
+	cin.get();
+
+	file.close();
 }
 
-void Menu::searchMovie(){
+void Menu::searchMovie() {
 	system(CLEAR);
 	cout<<TITLE_SEARCH_MOVIE<<endl<<endl;
-	
+
 	cin.ignore();
 	cin.clear();
-
 	string temp;
-	//Movie* movieToAdd = new Movie();
+//Movie* movieToAdd = new Movie();
 
-	do{
-	cout<<"write name of movie : ";
-	getline(cin, temp);
-	}while(temp.find_first_not_of(" ") == string::npos);
-	
-	
+	do {
+		cout<<"write name of movie : ";
+		getline(cin, temp);
+	} while(temp.find_first_not_of(" ") == string::npos);
+
+	cout<<"\n searching ...."<<endl<<endl;
+
+	ifstream file(NAMEFILE, std::ifstream::ate | ifstream::binary);
+
+	if(!file) {
+/// throw exception
+		cout<<endl<<ERROR_FILE_MESSAGE<<endl;
+		cin.ignore();
+		cin.get();
+		return;
+	}
+	Movie* tempMovie =  searchMovie(&file, temp);
+
+	if(tempMovie != nullptr) {
+
+		cout<<MESSAGE_MOVIE_NOT_FOUND<<endl<<endl;
+
+		PRINT_TITLES_MOVIES
+		cout<<tempMovie->getName();
+		cout<<"\t\t\t"<<tempMovie->getCategory();
+		cout<<"\t\t\t"<<tempMovie->getYear()<<endl;
+
+	} else cout<<MESSAGE_MOVIE_NOT_FOUND;
+
+
+	cin.ignore();
+	cin.get();
+
+	file.close();
 }
 
-/// FIX: how to read directly ?
-/// search in the file if is duplicated by
-Movie* Menu::captureMovie(){
+void Menu::modifyMovie() {
+	system(CLEAR);
+	cout<<TITLE_SEARCH_MOVIE<<endl<<endl;
+
+	cin.ignore();
+	cin.clear();
+	string temp;
+//Movie* movieToAdd = new Movie();
+
+	do {
+		cout<<"write name of movie : ";
+		getline(cin, temp);
+	} while(temp.find_first_not_of(" ") == string::npos);
+
+	cout<<"\n searching ...."<<endl<<endl;
+
+	ifstream file(NAMEFILE, std::ifstream::ate | ifstream::binary);
+
+	if(!file) {
+/// throw exception
+		cout<<endl<<ERROR_FILE_MESSAGE<<endl;
+		cin.ignore();
+		cin.get();
+		return;
+	}
+	Movie* tempMovie =  searchMovie(&file, temp);
+
+	if(tempMovie != nullptr) {
+
+		cout<<MESSAGE_MOVIE_NOT_FOUND<<endl<<endl;
+
+		PRINT_TITLES_MOVIES
+		cout<<tempMovie->getName();
+		cout<<"\t\t\t"<<tempMovie->getCategory();
+		cout<<"\t\t\t"<<tempMovie->getYear()<<endl;
+
+	} else cout<<MESSAGE_MOVIE_NOT_FOUND;
+
+
+	cin.ignore();
+	cin.get();
+
+	file.close();
+
+}
+
+
+Movie* Menu::captureMovie() {
 
 	cin.ignore();
 	cin.clear();
@@ -146,45 +227,45 @@ Movie* Menu::captureMovie(){
 	string temp;
 	Movie* movieToAdd = new Movie();
 
-	do{
-	cout<<"write name of movie : ";
-	getline(cin, temp);
-	}while(temp.find_first_not_of(" ") == string::npos);
+	do {
+		cout<<"write name of movie : ";
+		getline(cin, temp);
+	} while(temp.find_first_not_of(" ") == string::npos);
 	movieToAdd->setName(temp);
 	temp = "";
 
-	do{
-	cout<<"write category of movie : ";
-	cin.clear();
-	getline(cin, temp);
-	}while(temp.find_first_not_of(" ") == string::npos);
+	do {
+		cout<<"write category of movie : ";
+		cin.clear();
+		getline(cin, temp);
+	} while(temp.find_first_not_of(" ") == string::npos);
 	movieToAdd->setCategory(temp);
 	temp = "";
 
-	do{
-	cout<<"write year of movie : ";
-	cin.clear();
-	getline(cin, temp);
-	}while(temp.find_first_not_of(" ") == string::npos);
+	do {
+		cout<<"write year of movie : ";
+		cin.clear();
+		getline(cin, temp);
+	} while(temp.find_first_not_of(" ") == string::npos);
 	movieToAdd->setYear(temp);
 	temp = "";
 
 	return movieToAdd;
 }
 
-void  Menu::writeMovie(ofstream* file, Movie* toAdd){
+void  Menu::writeMovie(ofstream* file, Movie* toAdd) {
 
 	char sizeName, sizeCate, sizeYear, statusM;
 
-    	statusM = toAdd->getStatus();
+	statusM = toAdd->getStatus();
 	sizeName = toAdd->getName().length();
 	sizeCate = toAdd->getCategory().length();
 	sizeYear = toAdd->getYear().length();
-	// flags to hide 0
-	// by default 1
+// flags to hide 0
+// by default 1
 	file->write(&statusM, SIZE_DIMENSION_FILE);
 
-	// movie data
+// movie data
 	file->write(&sizeName, SIZE_DIMENSION_FILE);
 	file->write(toAdd->getName().c_str(), sizeName);
 
@@ -196,10 +277,10 @@ void  Menu::writeMovie(ofstream* file, Movie* toAdd){
 
 }
 
-Movie* Menu::loadMovie(std::ifstream* file, unsigned long* position, unsigned long* fileSize){
-	
-	// file->tellg() IMPROVE... 
-	// VALIDATION EACH CALL
+Movie* Menu::loadMovie(std::ifstream* file, unsigned long* position, unsigned long* fileSize) {
+
+// file->tellg() IMPROVE...
+// VALIDATION EACH CALL
 
 	if(*position == *fileSize)
 		return nullptr;
@@ -208,64 +289,77 @@ Movie* Menu::loadMovie(std::ifstream* file, unsigned long* position, unsigned lo
 	unsigned long tempDimension;
 	char tempSource[*fileSize];
 	memset(tempSource, 0, *fileSize);
- 	Movie* myMovie = nullptr;
+	Movie* myMovie = nullptr;
 
-	// temp[0] hidden_normal status
+// temp[0] hidden_normal status
 	file->seekg(*position);
 	file->read(tempSource, SIZE_DIMENSION_FILE);
-	
-	/// validation if return nullptr
+
+/// validation if return nullptr
 
 	myMovie = new Movie();
 	myMovie->setStatus(tempSource[0]);
-			
-	// temp[1] size_name (long)
+
+// temp[1] size_name (long)
 	memset(tempSource, 0, *fileSize);
 	file->seekg(file->tellg());
 	file->read(tempSource, SIZE_DIMENSION_FILE);
-	
+
 	tempDimension =(long)tempSource[0];
-	
+
 	memset(tempSource, 0, *fileSize);
 	file->read(tempSource, tempDimension);
-	
+
 	temp = tempSource;
 	myMovie->setName(temp);
-	
-	// temp[2] size_category (long)
+
+// temp[2] size_category (long)
 	memset(tempSource, 0, *fileSize);
 	file->seekg(file->tellg());
 	file->read(tempSource, SIZE_DIMENSION_FILE);
-	
+
 	tempDimension =(long)tempSource[0];
-	
+
 	memset(tempSource, 0, *fileSize);
 	file->read(tempSource, tempDimension);
-	
+
 	temp = tempSource;
 	myMovie->setCategory(temp);
 
-	// temp[3] size_year (long)
+// temp[3] size_year (long)
 	memset(tempSource, 0, *fileSize);
 	file->seekg(file->tellg());
 	file->read(tempSource, SIZE_DIMENSION_FILE);
-	
+
 	tempDimension =(long)tempSource[0];
-	
+
 	memset(tempSource, 0, *fileSize);
 	file->read(tempSource, tempDimension);
-	
+
 	temp = tempSource;
 	myMovie->setYear(temp);
-	
+
 	*position = file->tellg();
 
 	return myMovie;
 }
 
-Movie* Menu::searchMovie(ifstream *file, string name){
+/// if exist return it
+/// else return nullptr
+Movie* Menu::searchMovie(ifstream *file, string name) {
 
-	return nullptr;
+	unsigned long fileSize = (unsigned long )file->tellg(); /// cast for streampos is returned
+	unsigned long* positionMovie = new unsigned long(START_FIRST_MOVIE);
+	Movie* tempMovie = nullptr;
+
+	tempMovie = loadMovie(file, positionMovie, &fileSize);
+	while(tempMovie != nullptr) {
+		if (tempMovie->getName() == name )
+			return tempMovie;
+
+		tempMovie = nullptr;
+		tempMovie = loadMovie(file, positionMovie, &fileSize);
+	}
+
+	return tempMovie;
 }
-
-

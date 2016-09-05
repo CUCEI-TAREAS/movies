@@ -10,9 +10,9 @@
 #include "movie.h"
 
 #ifdef __linux__
-    #define CLEAR "clear"
+#define CLEAR "clear"
 #elif _WIN32
-    #define CLEAR "cls"
+#define CLEAR "cls"
 #endif
 
 #define NAMEFILE "movies.txt"
@@ -42,6 +42,10 @@
 #define START_FIRST_MOVIE 0
 #define SIZE_DIMENSION_FILE 1
 
+#define PRINT_TITLES_MOVIES cout<<" NAME\t\t"<<"CATEGORY\t"<<"YEAR"<<endl;
+#define MESSAGE_MOVIE_FOUND "MOVIE FOUND"
+#define MESSAGE_MOVIE_NOT_FOUND "MOVIE NOT FOUNND"
+
 class Menu {
 
 public:
@@ -52,19 +56,18 @@ public:
 	void doAction(char);
 	void mainMenu(void);
 
+/// base functions
 	void addMovie(void);
 	void showMovies(void);
 	void searchMovie(void);
-	
-	Movie* searchMovie(std::ifstream*, std::string); /// seek for name
+	void modifyMovie(void);
+
+	Movie* searchMovie(std::ifstream*, std::string); /// seek for name /// since begin -ends
 /// to manage file directly
 	void writeMovie(std::ofstream*, Movie*); /// write end of file
 	void writeMovie(std::ofstream*, Movie*, int); /// write movie in give position
 
-/// indicate position started movie to load // indicate size file to calculate buffer
-	Movie* loadMovie(std::ifstream*, unsigned long, unsigned long*);
-
-/// indicate position started movie to load THEN in the same pointer SAVE position to next movie // indicate size file to calculate buffer //
+	/// indicate position started movie to load THEN in the same pointer SAVE position to next movie // indicate size file to calculate buffer //
 	Movie* loadMovie(std::ifstream*, unsigned long*, unsigned long*);
 
 	Movie* captureMovie();
