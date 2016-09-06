@@ -22,6 +22,7 @@
 #define NAMEFILE "movies.txt"
 #define NAMEFILE_TEMPORAL "~movies.txt"
 
+
 #define TITLE_MAIN_MENU     "WELCOME TO MOVIES"
 
 #define TITLE_ADD_MOVIE     " ADD MOVIE"
@@ -42,6 +43,7 @@
 #define RESTORE_MOVIE   '7'
 #define EXIT            '8'
 
+#define CREATING_FILE "CREATING " NAMEFILE " FILE"
 #define ERROR_FILE_MESSAGE "FILE " NAMEFILE " UNAVAILABLE"
 #define START_FIRST_MOVIE 0
 #define SIZE_DIMENSION_FILE 1
@@ -84,7 +86,7 @@ public:
 
 	Movie* captureMovie();
 
-	std::ifstream* alreadyExistFile(std::string);
+	std::ifstream* alreadyExistFile(std::string, std::string);
 };
 
 #endif // MENU_H_INCLUDED
