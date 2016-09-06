@@ -78,45 +78,45 @@ void Menu::addMovie() {
 	/// SEARCH FOR DUPLICATED NAME IN FILE EXIST
 
 	Movie * movieToAdd = nullptr;
-	movieToAdd = captureMovie();
 
-	ifstream* fileRead = alreadyExistFile(NAMEFILE, CREATING_FILE);
+	ifstream* fileRead = alreadyExistFile(NAMEFILE, "");
 	if (fileRead == nullptr) {
 
+		movieToAdd = captureMovie();
 		ofstream file(NAMEFILE, ofstream::app);
 		writeMovie(&file, movieToAdd);
-		cout<<"\n"<<MOVIE_ADDED_SUCCESSFULLY<<endl;
+		cout<<endl<<endl<<CREATING_FILE;
+		cout<<endl<<MOVIE_ADDED_SUCCESSFULLY<<endl;
 		file.close();
 
 	} else {
+		string tempName;
+		do {
+			cout<<GET_NAME_MOVIE;
+			getline(cin, tempName);
+		} while(tempName.find_first_not_of(" ") == string::npos);
 
-		Movie * tempMovie = nullptr;
-
-		tempMovie =  searchMovie(fileRead, movieToAdd->getName());
+		movieToAdd =  searchMovie(fileRead, tempName);
 
 		fileRead->close();
-		if(tempMovie != nullptr) {
+		if(movieToAdd != nullptr) {
 
 			cout<<endl<<endl;
 			cout<<MESSAGE_MOVIE_DUPLICATED<<endl<<endl;
 
 			PRINT_TITLES_MOVIES
-			cout<<tempMovie->getName();
-			cout<<"\t\t\t"<<tempMovie->getCategory();
-			cout<<"\t\t\t"<<tempMovie->getYear()<<endl;
+			cout<<movieToAdd->getName();
+			cout<<"\t\t\t"<<movieToAdd->getCategory();
+			cout<<"\t\t\t"<<movieToAdd->getYear()<<endl;
 
 		} else {
-
+			movieToAdd = captureMovieWithoutName();
+			movieToAdd->setName(tempName);
 			ofstream file(NAMEFILE, ofstream::app);
 			writeMovie(&file, movieToAdd);
 			cout<<"\n"<<MOVIE_ADDED_SUCCESSFULLY<<endl;
 			file.close();
-
 		}
-
-		tempMovie =  nullptr;
-		delete tempMovie;
-
 	}
 
 	movieToAdd = nullptr;
@@ -146,7 +146,7 @@ void Menu::showMovies() {
 			tempMovie = nullptr;
 			tempMovie = loadMovie(file, positionMovie, &fileSize);
 		}
-	file->close();
+		file->close();
 	}
 	cin.ignore();
 	cin.get();
@@ -165,7 +165,7 @@ void Menu::searchMovie() {
 //Movie* movieToAdd = new Movie();
 
 	do {
-		cout<<"write name of movie : ";
+		cout<<GET_NAME_MOVIE;
 		getline(cin, temp);
 	} while(temp.find_first_not_of(" ") == string::npos);
 
@@ -208,7 +208,7 @@ void Menu::modifyMovie() {
 	string temp;
 
 	do {
-		cout<<"write name of movie : ";
+		cout<<GET_NAME_MOVIE;
 		getline(cin, temp);
 	} while(temp.find_first_not_of(" ") == string::npos);
 
@@ -251,18 +251,18 @@ Movie* Menu::captureMovie() {
 	cin.ignore();
 	cin.clear();
 
-	string temp;
+	string temp = "";
 	Movie* movieToAdd = new Movie();
 
 	do {
-		cout<<"write name of movie : ";
+		cout<<GET_NAME_MOVIE;
 		getline(cin, temp);
 	} while(temp.find_first_not_of(" ") == string::npos);
 	movieToAdd->setName(temp);
 	temp = "";
 
 	do {
-		cout<<"write category of movie : ";
+		cout<<GET_CATEGORY_MOVIE;
 		cin.clear();
 		getline(cin, temp);
 	} while(temp.find_first_not_of(" ") == string::npos);
@@ -270,7 +270,7 @@ Movie* Menu::captureMovie() {
 	temp = "";
 
 	do {
-		cout<<"write year of movie : ";
+		cout<<GET_YEAR_MOVIE;
 		cin.clear();
 		getline(cin, temp);
 	} while(temp.find_first_not_of(" ") == string::npos);
@@ -279,6 +279,36 @@ Movie* Menu::captureMovie() {
 
 	return movieToAdd;
 }
+
+Movie* Menu::captureMovieWithoutName() {
+
+	cin.ignore();
+	cin.clear();
+
+	string temp = "";
+	Movie* movieToAdd = new Movie();
+
+	do {
+		cout<<GET_CATEGORY_MOVIE;
+		cin.clear();
+		getline(cin, temp);
+	} while(temp.find_first_not_of(" ") == string::npos);
+	movieToAdd->setCategory(temp);
+	temp = "";
+
+	do {
+		cout<<GET_YEAR_MOVIE;
+		cin.clear();
+		getline(cin, temp);
+	} while(temp.find_first_not_of(" ") == string::npos);
+	movieToAdd->setYear(temp);
+	temp = "";
+
+	return movieToAdd;
+}
+
+
+
 
 void  Menu::writeMovie(ofstream* file, Movie* toAdd) {
 

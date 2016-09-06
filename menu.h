@@ -43,6 +43,10 @@
 #define RESTORE_MOVIE   '7'
 #define EXIT            '8'
 
+#define GET_NAME_MOVIE "write name of movie : "
+#define GET_CATEGORY_MOVIE "write category of movie : "
+#define GET_YEAR_MOVIE "write year of movie : "
+
 #define CREATING_FILE "CREATING " NAMEFILE " FILE"
 #define ERROR_FILE_MESSAGE "FILE " NAMEFILE " UNAVAILABLE"
 #define START_FIRST_MOVIE 0
@@ -85,6 +89,7 @@ public:
 	Movie* loadMovie(std::ifstream*, unsigned long*, unsigned long*);
 
 	Movie* captureMovie();
+	Movie* captureMovieWithoutName(); /// process duplicate
 
 	std::ifstream* alreadyExistFile(std::string, std::string);
 };
