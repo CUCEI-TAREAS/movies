@@ -11,6 +11,10 @@
 
 #ifdef __linux__
 #define CLEAR "clear"
+#define CLEAR "clear"
+#define DELETE_FILE          "rm ./"NAMEFILE
+#define DELETE_FILE_TEMPORAL "rm ./"NAMEFILE_TEMPORAL
+#define RENAME_FILE "mv ./"NAMEFILE_TEMPORAL " ./" NAMEFILE
 #elif _WIN32
 #define CLEAR "cls"
 #endif
@@ -47,11 +51,14 @@
 #define MESSAGE_MOVIE_NOT_FOUND "MOVIE NOT FOUND"
 #define MESSAGE_MOVIE_DUPLICATED "MOVIE ALREADY EXISTS! IMPOSSIBLE TO ADD "
 #define MOVIE_ADDED_SUCCESSFULLY "MOVIE ADDED SUCCESSFULLY"
+#define MOVIE_MODIFIED_SUCCESSFULLY "MOVIE MODIFIED SUCCESSFULLY"
+
 class Menu {
 
 public:
 	Menu();
 	~Menu();
+    std::ifstream* myFIlesPutosTetst = nullptr;
 
 	void printMenu(void);
 	void doAction(char);
@@ -64,6 +71,7 @@ public:
 	void modifyMovie(void);
 
 	Movie* searchMovie(std::ifstream*, std::string); /// seek for name /// since begin -ends
+    void modifyMovie(std::ifstream*, std::string, Movie*);
 
 	/// seek for name /// if movie is found long pointer indicate position / ALSO indicate position to start to search
 	Movie* searchMovie(std::ifstream*, std::string, unsigned long*);
@@ -75,6 +83,8 @@ public:
 	Movie* loadMovie(std::ifstream*, unsigned long*, unsigned long*);
 
 	Movie* captureMovie();
+
+	std::ifstream* alreadyExistFile(std::string);
 };
 
 #endif // MENU_H_INCLUDED

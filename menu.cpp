@@ -76,23 +76,17 @@ void Menu::addMovie() {
 	system(CLEAR);
 	cout<<TITLE_ADD_MOVIE<<endl<<endl;
 
-	ifstream file(NAMEFILE, std::ifstream::ate | ifstream::binary);
+    ifstream* file = alreadyExistFile(NAMEFILE);
+    if (file == nullptr) return;
 
-	if(!file) {
-/// throw exception
-		cout<<ERROR_FILE_MESSAGE<<endl;
-		cin.ignore();
-		cin.get();
-		return;
-	}
 	Movie * movieToAdd = nullptr, * tempMovie = nullptr;
 	movieToAdd = captureMovie();
 
 	/// SEARCH FOR DUPLICATED NAME IN FILE EXIST
 
-	tempMovie =  searchMovie(&file, movieToAdd->getName());
+	tempMovie =  searchMovie(file, movieToAdd->getName());
 
-	file.close();
+	file->close();
 	if(tempMovie != nullptr) {
 
 		cout<<MESSAGE_MOVIE_FOUND<<endl<<endl;
@@ -108,7 +102,7 @@ void Menu::addMovie() {
 		ofstream file(NAMEFILE, ofstream::app);
 		writeMovie(&file, movieToAdd);
 		cout<<"\n"<<MOVIE_ADDED_SUCCESSFULLY<<endl;
-        file.close();
+		file.close();
 
 	}
 	tempMovie = movieToAdd = nullptr;
@@ -124,34 +118,27 @@ void Menu::showMovies() {
 	system(CLEAR);
 	cout<<TITLE_SHOW_MOVIES<<endl<<endl;
 
-	ifstream file(NAMEFILE, std::ifstream::ate | ifstream::binary);
+    ifstream* file = alreadyExistFile(NAMEFILE);
+    if (file == nullptr) return;
 
-	if(!file) {
-/// throw exception
-		cout<<endl<<ERROR_FILE_MESSAGE<<endl;
-		cin.ignore();
-		cin.get();
-		return;
-	}
-
-	unsigned long fileSize = (unsigned long )file.tellg(); /// cast for streampos is returned
+	unsigned long fileSize = (unsigned long )file->tellg(); /// cast for streampos is returned
 	unsigned long* positionMovie = new unsigned long(START_FIRST_MOVIE);
 	Movie* tempMovie = nullptr;
 
 	PRINT_TITLES_MOVIES
-	tempMovie = loadMovie(&file, positionMovie, &fileSize);
+	tempMovie = loadMovie(file, positionMovie, &fileSize);
 	while(tempMovie != nullptr) {
 		cout<<tempMovie->getName();
 		cout<<"\t\t\t"<<tempMovie->getCategory();
 		cout<<"\t\t\t"<<tempMovie->getYear()<<endl;
 		tempMovie = nullptr;
-		tempMovie = loadMovie(&file, positionMovie, &fileSize);
+		tempMovie = loadMovie(file, positionMovie, &fileSize);
 	}
 
 	cin.ignore();
 	cin.get();
 
-	file.close();
+	file->close();
 }
 
 void Menu::searchMovie() {
@@ -170,16 +157,10 @@ void Menu::searchMovie() {
 
 	cout<<"\n searching ...."<<endl<<endl;
 
-	ifstream file(NAMEFILE, std::ifstream::ate | ifstream::binary);
+    ifstream* file = alreadyExistFile(NAMEFILE);
+    if (file == nullptr) return;
 
-	if(!file) {
-/// throw exception
-		cout<<endl<<ERROR_FILE_MESSAGE<<endl;
-		cin.ignore();
-		cin.get();
-		return;
-	}
-	Movie* tempMovie =  searchMovie(&file, temp);
+	Movie* tempMovie =  searchMovie(file, temp);
 
 	if(tempMovie != nullptr) {
 
@@ -196,12 +177,17 @@ void Menu::searchMovie() {
 	cin.ignore();
 	cin.get();
 
-	file.close();
+	file->close();
+	file = nullptr;
+	delete file;
 }
 
 void Menu::modifyMovie() {
 	system(CLEAR);
 	cout<<TITLE_SEARCH_MOVIE<<endl<<endl;
+
+    ifstream* file = alreadyExistFile(NAMEFILE);
+    if (file == nullptr) return;
 
 	cin.ignore();
 	cin.clear();
@@ -214,16 +200,7 @@ void Menu::modifyMovie() {
 
 	cout<<"\n searching ...."<<endl<<endl;
 
-	ifstream file(NAMEFILE, std::ifstream::ate | ifstream::binary);
-
-	if(!file) {
-/// throw exception
-		cout<<endl<<ERROR_FILE_MESSAGE<<endl;
-		cin.ignore();
-		cin.get();
-		return;
-	}
-	Movie* tempMovie =  searchMovie(&file, temp);
+	Movie* tempMovie =  searchMovie(file, temp);
 
 	if(tempMovie != nullptr) {
 
@@ -234,7 +211,15 @@ void Menu::modifyMovie() {
 		cout<<"\t\t\t"<<tempMovie->getCategory();
 		cout<<"\t\t\t"<<tempMovie->getYear()<<endl;
 
+		cout<<endl<<endl;
+        tempMovie = captureMovie();
+        tempMovie = searchMovie(file, tempMovie->getName());
 
+        if (tempMovie != nullptr)
+            cout<<MESSAGE_MOVIE_DUPLICATED;
+        else {
+            /// modifyMovie(file, nameMovie, *movieToAdd, ) /// create a temporal, copy every movie seeking fo and then rename it, adding all movies with new modify movie
+        }
 
 	} else cout<<MESSAGE_MOVIE_NOT_FOUND;
 
@@ -242,7 +227,7 @@ void Menu::modifyMovie() {
 	cin.ignore();
 	cin.get();
 
-	file.close();
+	file->close();
 
 }
 
@@ -389,16 +374,15 @@ Movie* Menu::searchMovie(ifstream *file, string name) {
 		tempMovie = loadMovie(file, positionMovie, &fileSize);
 	}
 
-    positionMovie = nullptr;
-    delete positionMovie;
+	positionMovie = nullptr;
+	delete positionMovie;
 
 	return tempMovie;
 }
 
-Movie* Menu::searchMovie(ifstream *file, string name, unsigned long* position) {
+Movie* Menu::searchMovie(ifstream *file, string name, unsigned long* positionMovie) {
 
 	unsigned long fileSize = (unsigned long )file->tellg(); /// cast for streampos is returned
-	unsigned long* positionMovie = new unsigned long(START_FIRST_MOVIE);
 	Movie* tempMovie = nullptr;
 
 	tempMovie = loadMovie(file, positionMovie, &fileSize);
@@ -410,8 +394,29 @@ Movie* Menu::searchMovie(ifstream *file, string name, unsigned long* position) {
 		tempMovie = loadMovie(file, positionMovie, &fileSize);
 	}
 
-    positionMovie = nullptr;
-    delete positionMovie;
+	positionMovie = nullptr;
+	delete positionMovie;
 
 	return tempMovie;
+}
+
+void Menu::modifyMovie(ifstream* file, string name, Movie* movieToAdd){
+
+}
+
+ifstream* Menu::alreadyExistFile(string name){
+
+	ifstream* file = nullptr;//
+	file->open(NAMEFILE, std::ifstream::ate | ifstream::binary);
+
+	if(!file) {
+/// throw exception
+		cout<<endl<<ERROR_FILE_MESSAGE<<endl;
+		cin.ignore();
+		cin.get();
+		file = nullptr;
+		delete file;
+		return nullptr;
+	}
+    return file;
 }

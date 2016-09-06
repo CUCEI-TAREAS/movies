@@ -4,17 +4,17 @@
 #include "menu.h"
 #include "movie.h"
 
-#ifdef __linux__ 
-    #define CLEAR "clear"
+#ifdef __linux__
+#define CLEAR "clear"
 #elif _WIN32
-    #define CLEAR "cls"
+#define CLEAR "cls"
 #endif
 
 using namespace std;
 
 int main () {
 
-	system(CLEAR);	
+	system(CLEAR);
 
 	Menu myMenu;
 	myMenu.mainMenu();
