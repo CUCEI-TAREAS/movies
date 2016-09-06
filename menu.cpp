@@ -90,6 +90,8 @@ void Menu::addMovie() {
 		file.close();
 
 	} else {
+	    cin.clear();
+	    cin.ignore();
 		string tempName;
 		do {
 			cout<<GET_NAME_MOVIE;
@@ -104,10 +106,8 @@ void Menu::addMovie() {
 			cout<<endl<<endl;
 			cout<<MESSAGE_MOVIE_DUPLICATED<<endl<<endl;
 
-			PRINT_TITLES_MOVIES
-			cout<<movieToAdd->getName();
-			cout<<"\t\t\t"<<movieToAdd->getCategory();
-			cout<<"\t\t\t"<<movieToAdd->getYear()<<endl;
+			printTitles();
+			printMovie(movieToAdd);
 
 		} else {
 			movieToAdd = captureMovieWithoutName();
@@ -137,12 +137,10 @@ void Menu::showMovies() {
 		unsigned long* positionMovie = new unsigned long(START_FIRST_MOVIE);
 		Movie* tempMovie = nullptr;
 
-		PRINT_TITLES_MOVIES
+		printTitles();
 		tempMovie = loadMovie(file, positionMovie, &fileSize);
 		while(tempMovie != nullptr) {
-			cout<<tempMovie->getName();
-			cout<<"\t\t\t"<<tempMovie->getCategory();
-			cout<<"\t\t\t"<<tempMovie->getYear()<<endl;
+			printMovie(tempMovie);
 			tempMovie = nullptr;
 			tempMovie = loadMovie(file, positionMovie, &fileSize);
 		}
@@ -169,8 +167,6 @@ void Menu::searchMovie() {
 		getline(cin, temp);
 	} while(temp.find_first_not_of(" ") == string::npos);
 
-	cout<<"\n searching ...."<<endl<<endl;
-
 	ifstream* file = alreadyExistFile(NAMEFILE, ERROR_FILE_MESSAGE);
 	if (file == nullptr) return;
 
@@ -180,11 +176,8 @@ void Menu::searchMovie() {
 
 		cout<<MESSAGE_MOVIE_FOUND<<endl<<endl;
 
-		PRINT_TITLES_MOVIES
-		cout<<tempMovie->getName();
-		cout<<"\t\t\t"<<tempMovie->getCategory();
-		cout<<"\t\t\t"<<tempMovie->getYear()<<endl;
-
+		printTitles();
+        printMovie(tempMovie);
 	} else cout<<MESSAGE_MOVIE_NOT_FOUND;
 
 
@@ -212,18 +205,14 @@ void Menu::modifyMovie() {
 		getline(cin, temp);
 	} while(temp.find_first_not_of(" ") == string::npos);
 
-	cout<<"\n searching ...."<<endl<<endl;
-
 	Movie* tempMovie =  searchMovie(file, temp);
 
 	if(tempMovie != nullptr) {
 
 		cout<<MESSAGE_MOVIE_FOUND<<endl<<endl;
 
-		PRINT_TITLES_MOVIES
-		cout<<tempMovie->getName();
-		cout<<"\t\t\t"<<tempMovie->getCategory();
-		cout<<"\t\t\t"<<tempMovie->getYear()<<endl;
+		printTitles();
+        printMovie(tempMovie);
 
 		cout<<endl<<endl;
 		tempMovie = captureMovie();
@@ -282,7 +271,6 @@ Movie* Menu::captureMovie() {
 
 Movie* Menu::captureMovieWithoutName() {
 
-	cin.ignore();
 	cin.clear();
 
 	string temp = "";
@@ -461,4 +449,33 @@ ifstream* Menu::alreadyExistFile(string name,  string message) {
 		return nullptr;
 	}
 	return file;
+}
+
+void Menu::printMovie(Movie* toPrint) {
+
+	std::cout.fill(' ');
+	std::cout.width(35);
+	std::cout << std::left <<toPrint->getName();
+	std::cout.fill(' ');
+	std::cout.width(35);
+	std::cout << std::left <<toPrint->getCategory();
+	std::cout.fill(' ');
+	std::cout.width(35);
+	std::cout << std::left<<toPrint->getYear();
+    cout<<endl;
+
+}
+
+void Menu::printTitles(){
+	std::cout.fill(' ');
+	std::cout.width(35);
+	std::cout << std::left <<"NAME";
+	std::cout.fill(' ');
+	std::cout.width(35);
+	std::cout << std::left <<"CATEGORY";
+	std::cout.fill(' ');
+	std::cout.width(35);
+	std::cout << std::left<<"YEAR";
+	cout<<endl;
+
 }

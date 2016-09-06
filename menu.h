@@ -6,6 +6,7 @@
 #include <string>
 #include <string.h>
 #include <cstdlib>
+#include <iomanip>
 
 #include "movie.h"
 
@@ -52,7 +53,8 @@
 #define START_FIRST_MOVIE 0
 #define SIZE_DIMENSION_FILE 1
 
-#define PRINT_TITLES_MOVIES cout<<" NAME\t\t"<<"CATEGORY\t"<<"YEAR"<<endl;
+#define PRINT_TITLES_MOVIES
+
 #define MESSAGE_MOVIE_FOUND "MOVIE FOUND"
 #define MESSAGE_MOVIE_NOT_FOUND "MOVIE NOT FOUND"
 #define MESSAGE_MOVIE_DUPLICATED "MOVIE ALREADY EXISTS! IMPOSSIBLE TO ADD "
@@ -92,6 +94,9 @@ public:
 	Movie* captureMovieWithoutName(); /// process duplicate
 
 	std::ifstream* alreadyExistFile(std::string, std::string);
+
+	void printMovie(Movie*);
+	void printTitles(void);
 };
 
 #endif // MENU_H_INCLUDED
