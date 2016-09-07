@@ -1,3 +1,26 @@
+/**
+search() modify()
+bug when file is has created yet and seek movie
+should print message as showMovie() "unavailable file"
+
+*/
+
+/**
+modify() :246
+modifyMovie(file, nameMovie, *movieToAdd, )
+create a temporal, copy every movie seeking for name and then rename namefile, adding all movies with new modify movie
+
+*/
+
+/**
+search() modify()
+comparate new algorithms
+
+*/
+
+/**
+
+*/
 #include "menu.h"
 
 using namespace std;
@@ -75,7 +98,6 @@ void Menu::mainMenu() {
 void Menu::addMovie() {
 	system(CLEAR);
 	cout<<TITLE_ADD_MOVIE<<endl<<endl;
-	/// SEARCH FOR DUPLICATED NAME IN FILE EXIST
 
 	Movie * movieToAdd = nullptr;
 
@@ -90,8 +112,8 @@ void Menu::addMovie() {
 		file.close();
 
 	} else {
-	    cin.clear();
-	    cin.ignore();
+		cin.clear();
+		cin.ignore();
 		string tempName;
 		do {
 			cout<<GET_NAME_MOVIE;
@@ -177,7 +199,7 @@ void Menu::searchMovie() {
 		cout<<MESSAGE_MOVIE_FOUND<<endl<<endl;
 
 		printTitles();
-        printMovie(tempMovie);
+		printMovie(tempMovie);
 	} else cout<<MESSAGE_MOVIE_NOT_FOUND;
 
 
@@ -212,7 +234,7 @@ void Menu::modifyMovie() {
 		cout<<MESSAGE_MOVIE_FOUND<<endl<<endl;
 
 		printTitles();
-        printMovie(tempMovie);
+		printMovie(tempMovie);
 
 		cout<<endl<<endl;
 		tempMovie = captureMovie();
@@ -221,7 +243,7 @@ void Menu::modifyMovie() {
 		if (tempMovie != nullptr)
 			cout<<MESSAGE_MOVIE_DUPLICATED;
 		else {
-			/// modifyMovie(file, nameMovie, *movieToAdd, ) /// create a temporal, copy every movie seeking fo and then rename it, adding all movies with new modify movie
+			/// pending
 		}
 
 	} else cout<<MESSAGE_MOVIE_NOT_FOUND;
@@ -462,11 +484,11 @@ void Menu::printMovie(Movie* toPrint) {
 	std::cout.fill(' ');
 	std::cout.width(35);
 	std::cout << std::left<<toPrint->getYear();
-    cout<<endl;
+	cout<<endl;
 
 }
 
-void Menu::printTitles(){
+void Menu::printTitles() {
 	std::cout.fill(' ');
 	std::cout.width(35);
 	std::cout << std::left <<"NAME";
