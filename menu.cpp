@@ -1,18 +1,18 @@
-/**
+/** : completed -> search () return movie found or null to avoid duplicate code in modify()
 search() modify()
 bug when file is has created yet and seek movie
 should print message as showMovie() "unavailable file"
 
 */
 
-/**
-modify() :246
+/** to fix -> with new algorithms
+modify() :246 :
 modifyMovie(file, nameMovie, *movieToAdd, )
 create a temporal, copy every movie seeking for name and then rename namefile, adding all movies with new modify movie
 
 */
 
-/**
+/** completed -> modify search through search, and avoid overwrite code
 search() modify()
 comparate new algorithms
 
@@ -175,85 +175,52 @@ void Menu::showMovies() {
 	delete file;
 }
 
-void Menu::searchMovie() {
+Movie* Menu::searchMovie() {
 	system(CLEAR);
 	cout<<TITLE_SEARCH_MOVIE<<endl<<endl;
 
-	cin.ignore();
 	cin.clear();
-	string temp;
-//Movie* movieToAdd = new Movie();
-
-	do {
-		cout<<GET_NAME_MOVIE;
-		getline(cin, temp);
-	} while(temp.find_first_not_of(" ") == string::npos);
+	Movie* tempMovie = nullptr;
 
 	ifstream* file = alreadyExistFile(NAMEFILE, ERROR_FILE_MESSAGE);
-	if (file == nullptr) return;
-
-	Movie* tempMovie =  searchMovie(file, temp);
-
-	if(tempMovie != nullptr) {
-
-		cout<<MESSAGE_MOVIE_FOUND<<endl<<endl;
-
-		printTitles();
-		printMovie(tempMovie);
-	} else cout<<MESSAGE_MOVIE_NOT_FOUND;
+	if (file != nullptr) {
+		string temp;
+		do {
+			cout<<GET_NAME_MOVIE;
+			getline(cin, temp);
+		} while(temp.find_first_not_of(" ") == string::npos);
 
 
-	cin.ignore();
+		tempMovie =  searchMovie(file, temp);
+
+		if(tempMovie != nullptr) {
+
+			cout<<MESSAGE_MOVIE_FOUND<<endl<<endl;
+
+			printTitles();
+			printMovie(tempMovie);
+		} else cout<<MESSAGE_MOVIE_NOT_FOUND;
+
+		file->close();
+	}
+
 	cin.get();
+	cin.ignore();
 
-	file->close();
 	file = nullptr;
 	delete file;
+
+	return tempMovie;
 }
 
 void Menu::modifyMovie() {
-	system(CLEAR);
-	cout<<TITLE_SEARCH_MOVIE<<endl<<endl;
+	Movie* movieToModify = searchMovie();
 
-	ifstream* file = alreadyExistFile(NAMEFILE, ERROR_FILE_MESSAGE);
-	if (file == nullptr) return;
+	if (movieToModify != nullptr) {
 
-	cin.ignore();
-	cin.clear();
-	string temp;
-
-	do {
-		cout<<GET_NAME_MOVIE;
-		getline(cin, temp);
-	} while(temp.find_first_not_of(" ") == string::npos);
-
-	Movie* tempMovie =  searchMovie(file, temp);
-
-	if(tempMovie != nullptr) {
-
-		cout<<MESSAGE_MOVIE_FOUND<<endl<<endl;
-
-		printTitles();
-		printMovie(tempMovie);
-
-		cout<<endl<<endl;
-		tempMovie = captureMovie();
-		tempMovie = searchMovie(file, tempMovie->getName());
-
-		if (tempMovie != nullptr)
-			cout<<MESSAGE_MOVIE_DUPLICATED;
-		else {
-			/// pending
-		}
-
-	} else cout<<MESSAGE_MOVIE_NOT_FOUND;
-
-
-	cin.ignore();
-	cin.get();
-
-	file->close();
-
+	} else {
+		return;
+	}
 }
 
 

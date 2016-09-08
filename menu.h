@@ -75,7 +75,7 @@ public:
 /// base functions
 	void addMovie(void);
 	void showMovies(void);
-	void searchMovie(void);
+	Movie* searchMovie(void);
 	void modifyMovie(void);
 
 	Movie* searchMovie(std::ifstream*, std::string); /// seek for name /// since begin -ends
