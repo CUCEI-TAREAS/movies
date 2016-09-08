@@ -61,12 +61,13 @@
 #define MOVIE_ADDED_SUCCESSFULLY "MOVIE ADDED SUCCESSFULLY"
 #define MOVIE_MODIFIED_SUCCESSFULLY "MOVIE MODIFIED SUCCESSFULLY"
 
+#define MAX_CHARACTER_FOR_MOVIE 35
+
 class Menu {
 
 public:
 	Menu();
 	~Menu();
-    std::ifstream* myFIlesPutosTetst = nullptr;
 
 	void printMenu(void);
 	void doAction(char);
@@ -91,12 +92,13 @@ public:
 	Movie* loadMovie(std::ifstream*, unsigned long*, unsigned long*);
 
 	Movie* captureMovie();
-	Movie* captureMovieWithoutName(); /// process duplicate
+	Movie* captureMovieWithoutName();
 
 	std::ifstream* alreadyExistFile(std::string, std::string);
 
 	void printMovie(Movie*);
 	void printTitles(void);
+	Movie* findDuplicateForName();
 };
 
 #endif // MENU_H_INCLUDED

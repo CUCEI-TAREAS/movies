@@ -19,8 +19,15 @@ comparate new algorithms
 */
 
 /**
+change name variables through defines to make generic
 
 */
+
+/**
+print only movies unhidden
+
+*/
+
 #include "menu.h"
 
 using namespace std;
@@ -92,9 +99,6 @@ void Menu::mainMenu() {
 	} while(option != EXIT);
 }
 
-/// search the NAME movie in the file [duplicate()] []
-/// if name movie dont exist, is posibnle write...
-/// else, throw exception ¡is duplicate!
 void Menu::addMovie() {
 	system(CLEAR);
 	cout<<TITLE_ADD_MOVIE<<endl<<endl;
@@ -148,7 +152,6 @@ void Menu::addMovie() {
 	cin.get();
 }
 
-// show all movies except status movies
 void Menu::showMovies() {
 	system(CLEAR);
 	cout<<TITLE_SHOW_MOVIES<<endl<<endl;
@@ -179,12 +182,13 @@ Movie* Menu::searchMovie() {
 	system(CLEAR);
 	cout<<TITLE_SEARCH_MOVIE<<endl<<endl;
 
-	cin.clear();
 	Movie* tempMovie = nullptr;
+	cin.clear();
 
 	ifstream* file = alreadyExistFile(NAMEFILE, ERROR_FILE_MESSAGE);
 	if (file != nullptr) {
 		string temp;
+		cin.ignore();
 		do {
 			cout<<GET_NAME_MOVIE;
 			getline(cin, temp);
@@ -194,9 +198,6 @@ Movie* Menu::searchMovie() {
 		tempMovie =  searchMovie(file, temp);
 
 		if(tempMovie != nullptr) {
-
-			cout<<MESSAGE_MOVIE_FOUND<<endl<<endl;
-
 			printTitles();
 			printMovie(tempMovie);
 		} else cout<<MESSAGE_MOVIE_NOT_FOUND;
@@ -214,13 +215,26 @@ Movie* Menu::searchMovie() {
 }
 
 void Menu::modifyMovie() {
-	Movie* movieToModify = searchMovie();
+
+	Movie* temp = nullptr, * movieToModify = searchMovie();
 
 	if (movieToModify != nullptr) {
+		system(CLEAR);
+		cout<<TITLE_MODIFY_MOVIE<<endl<<endl;
+
+		printTitles();
+		printMovie(movieToModify);
+
+		cout<<"INSERT NEW MOVIE :"<<endl<<endl;
+        /// algorithms same add
+        /// pending!
 
 	} else {
 		return;
 	}
+
+	cin.ignore();
+	cin.get();
 }
 
 
@@ -312,9 +326,6 @@ void  Menu::writeMovie(ofstream* file, Movie* toAdd) {
 }
 
 Movie* Menu::loadMovie(std::ifstream* file, unsigned long* position, unsigned long* fileSize) {
-
-// file->tellg() IMPROVE...
-// VALIDATION EACH CALL
 
 	if(*position == *fileSize)
 		return nullptr;
@@ -443,13 +454,13 @@ ifstream* Menu::alreadyExistFile(string name,  string message) {
 void Menu::printMovie(Movie* toPrint) {
 
 	std::cout.fill(' ');
-	std::cout.width(35);
+	std::cout.width(MAX_CHARACTER_FOR_MOVIE);
 	std::cout << std::left <<toPrint->getName();
 	std::cout.fill(' ');
-	std::cout.width(35);
+	std::cout.width(MAX_CHARACTER_FOR_MOVIE);
 	std::cout << std::left <<toPrint->getCategory();
 	std::cout.fill(' ');
-	std::cout.width(35);
+	std::cout.width(MAX_CHARACTER_FOR_MOVIE);
 	std::cout << std::left<<toPrint->getYear();
 	cout<<endl;
 
@@ -457,14 +468,18 @@ void Menu::printMovie(Movie* toPrint) {
 
 void Menu::printTitles() {
 	std::cout.fill(' ');
-	std::cout.width(35);
+	std::cout.width(MAX_CHARACTER_FOR_MOVIE);
 	std::cout << std::left <<"NAME";
 	std::cout.fill(' ');
-	std::cout.width(35);
+	std::cout.width(MAX_CHARACTER_FOR_MOVIE);
 	std::cout << std::left <<"CATEGORY";
 	std::cout.fill(' ');
-	std::cout.width(35);
+	std::cout.width(MAX_CHARACTER_FOR_MOVIE);
 	std::cout << std::left<<"YEAR";
 	cout<<endl;
+
+}
+
+Movie* findDuplicateForName(){
 
 }
