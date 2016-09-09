@@ -28,6 +28,11 @@ print only movies unhidden
 
 */
 
+/**
+#1
+Bug OS Win : loadMovie() when the field dimension indicate 10 [ Ten ] its interpretated like \r when is \n
+*/
+
 #include "menu.h"
 
 using namespace std;
@@ -330,8 +335,8 @@ Movie* Menu::loadMovie(std::ifstream* file, unsigned long* position, unsigned lo
 	if(*position == *fileSize)
 		return nullptr;
 
-	string temp;
-	unsigned long tempDimension;
+	string temp = "";
+	unsigned long tempDimension = 0;
 	char tempSource[*fileSize];
 	memset(tempSource, 0, *fileSize);
 	Movie* myMovie = nullptr;
@@ -351,7 +356,7 @@ Movie* Menu::loadMovie(std::ifstream* file, unsigned long* position, unsigned lo
 	file->read(tempSource, SIZE_DIMENSION_FILE);
 
 	tempDimension =(long)tempSource[0];
-
+/// bug :  TO:FIX #1
 	memset(tempSource, 0, *fileSize);
 	file->read(tempSource, tempDimension);
 
@@ -389,8 +394,6 @@ Movie* Menu::loadMovie(std::ifstream* file, unsigned long* position, unsigned lo
 	return myMovie;
 }
 
-/// if exist return it
-/// else return nullptr
 Movie* Menu::searchMovie(ifstream *file, string name) {
 
 	unsigned long fileSize = (unsigned long )file->tellg(); /// cast for streampos is returned
