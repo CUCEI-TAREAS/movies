@@ -221,18 +221,57 @@ Movie* Menu::searchMovie() {
 
 void Menu::modifyMovie() {
 
-	Movie* temp = nullptr, * movieToModify = searchMovie();
+	Movie* temp = searchMovie();
 
-	if (movieToModify != nullptr) {
+	if (temp != nullptr) {
 		system(CLEAR);
 		cout<<TITLE_MODIFY_MOVIE<<endl<<endl;
 
 		printTitles();
-		printMovie(movieToModify);
+		printMovie(temp);
 
+		cout<<endl<<endl;
 		cout<<"INSERT NEW MOVIE :"<<endl<<endl;
-        /// algorithms same add
-        /// pending!
+
+
+		cin.clear();
+		cin.ignore();
+		string tempName;
+		do {
+			cout<<GET_NAME_MOVIE;
+			getline(cin, tempName);
+		} while(tempName.find_first_not_of(" ") == string::npos);
+
+		ifstream* fileRead = alreadyExistFile(NAMEFILE, ERROR_FILE_MESSAGE);
+        /// fleWrite
+		Movie* movieToAdd =  searchMovie(fileRead, tempName);
+
+		fileRead->close();
+		if(movieToAdd != nullptr) {
+
+			cout<<endl<<endl;
+			cout<<MESSAGE_MOVIE_DUPLICATED<<endl<<endl;
+
+			printTitles();
+			printMovie(movieToAdd);
+
+		} else {
+
+			/// pendig
+			///fileWrite NAMEFILE & NAMEFILE_TEMP
+			/// loadFirstMovie -> to recorre file...
+            /// while loadFirstMovie != temp
+                /// write loadFirstmovie in temp file
+            /// if loadFirstMovie == temp
+                /// write movieToAdd in temp file
+
+			movieToAdd = captureMovieWithoutName();
+			movieToAdd->setName(tempName);
+			ofstream file(NAMEFILE, ofstream::app);
+			writeMovie(&file, movieToAdd);
+			cout<<"\n"<<MOVIE_ADDED_SUCCESSFULLY<<endl;
+			file.close();
+		}
 
 	} else {
 		return;
@@ -483,6 +522,6 @@ void Menu::printTitles() {
 
 }
 
-Movie* findDuplicateForName(){
+Movie* findDuplicateForName() {
 
 }
