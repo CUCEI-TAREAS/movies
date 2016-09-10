@@ -265,6 +265,10 @@ void Menu::modifyMovie() {
             /// if loadFirstMovie == temp
                 /// write movieToAdd in temp file
 
+                /// reaname different files....
+                /// branch to use ffstream pointer as member class
+
+
 			movieToAdd = captureMovieWithoutName();
 			movieToAdd->setName(tempName);
 			ofstream file(NAMEFILE, ofstream::app);
