@@ -267,7 +267,7 @@ void Menu::modifyMovie() {
 
                 /// reaname different files....
                 /// branch to use ffstream pointer as member class
-                ///solution
+                ///solution 'sstream pointer"
 
 
 			movieToAdd = captureMovieWithoutName();
