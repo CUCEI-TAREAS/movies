@@ -13,9 +13,8 @@
 #ifdef __linux__
 #define CLEAR "clear"
 #define CLEAR "clear"
-#define DELETE_FILE          "rm ./"NAMEFILE
-#define DELETE_FILE_TEMPORAL "rm ./"NAMEFILE_TEMPORAL
-#define RENAME_FILE "mv ./"NAMEFILE_TEMPORAL " ./" NAMEFILE
+#define DELETE_FILE "rm ./" NAMEFILE
+#define RENAME_FILE "mv ./" NAMEFILE_TEMPORAL " ./" NAMEFILE
 #elif _WIN32
 #define CLEAR "cls"
 #endif
@@ -98,7 +97,7 @@ public:
 
 	void printMovie(Movie*);
 	void printTitles(void);
-	Movie* findDuplicateForName();
+
 };
 
 #endif // MENU_H_INCLUDED

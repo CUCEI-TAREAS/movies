@@ -3,7 +3,6 @@ search() modify()
 bug when file is has created yet and seek movie
 should print message as showMovie() "unavailable file"
 
-asd
 */
 
 /** to fix -> with new algorithms
@@ -34,6 +33,11 @@ print only movies unhidden
 Bug OS Win : loadMovie() when the field dimension indicate 10 [ Ten ] its interpretated like \r when is \n
 */
 
+/** TO FIX : bug : 248
+
+		///  TO FIX : BUG : WHEN TRY MODIFY THE SAME MOVIE
+		/// SHOULD COMPARE NEW NAME DIFFERENTE OF ALL MOVIE EXCEPT ITSELF
+*/
 #include "menu.h"
 
 using namespace std;
@@ -222,14 +226,14 @@ Movie* Menu::searchMovie() {
 
 void Menu::modifyMovie() {
 
-	Movie* temp = searchMovie();
+	Movie* tempMovie = searchMovie();
 
-	if (temp != nullptr) {
+	if (tempMovie != nullptr) {
 		system(CLEAR);
 		cout<<TITLE_MODIFY_MOVIE<<endl<<endl;
 
 		printTitles();
-		printMovie(temp);
+		printMovie(tempMovie);
 
 		cout<<endl<<endl;
 		cout<<"INSERT NEW MOVIE :"<<endl<<endl;
@@ -243,11 +247,11 @@ void Menu::modifyMovie() {
 			getline(cin, tempName);
 		} while(tempName.find_first_not_of(" ") == string::npos);
 
-		ifstream* fileRead = alreadyExistFile(NAMEFILE, ERROR_FILE_MESSAGE);
-        /// fleWrite
-		Movie* movieToAdd =  searchMovie(fileRead, tempName);
+		ifstream* file = alreadyExistFile(NAMEFILE, ERROR_FILE_MESSAGE);
+		Movie* movieToAdd =  searchMovie(file, tempName);
 
-		fileRead->close();
+		///  TO FIX : BUG : WHEN TRY MODIFY THE SAME MOVIE
+		/// SHOULD COMPARE NEW NAME DIFFERENTE OF ALL MOVIE EXCEPT ITSELF
 		if(movieToAdd != nullptr) {
 
 			cout<<endl<<endl;
@@ -255,38 +259,45 @@ void Menu::modifyMovie() {
 
 			printTitles();
 			printMovie(movieToAdd);
+			file->close();
 
 		} else {
 
-			/// pendig
-			///fileWrite NAMEFILE & NAMEFILE_TEMP
-			/// loadFirstMovie -> to recorre file...
-            /// while loadFirstMovie != temp
-                /// write loadFirstmovie in temp file
-            /// if loadFirstMovie == temp
-                /// write movieToAdd in temp file
-
-                /// reaname different files....
-                /// branch to use ffstream pointer as member class
-                ///solution 'sstream pointer"
-
-
 			movieToAdd = captureMovieWithoutName();
 			movieToAdd->setName(tempName);
-			ofstream file(NAMEFILE, ofstream::app);
-			writeMovie(&file, movieToAdd);
-			cout<<"\n"<<MOVIE_ADDED_SUCCESSFULLY<<endl;
-			file.close();
+
+			/// save the name of movie to modify
+			tempName = tempMovie->getName();
+
+			ofstream tempFile(NAMEFILE_TEMPORAL, iostream::app);
+
+			tempMovie = nullptr;
+			unsigned long* positionMovie =  new unsigned long(START_FIRST_MOVIE);
+			unsigned long fileSize = (unsigned long )file->tellg();
+
+			tempMovie = loadMovie(file, positionMovie, &fileSize);
+			while(tempMovie != nullptr) {
+				if(tempName == tempMovie->getName())
+					writeMovie(&tempFile, movieToAdd);
+				else
+					writeMovie(&tempFile, tempMovie);
+
+				tempMovie = nullptr;
+				tempMovie = loadMovie(file, positionMovie, &fileSize);
+			}
+
+			file->close();
+			tempFile.close();
+
+			/// delete all pointerss
+			system(DELETE_FILE);
+			system(RENAME_FILE);
 		}
 
-	} else {
-		return;
 	}
-
 	cin.ignore();
 	cin.get();
 }
-
 
 Movie* Menu::captureMovie() {
 
@@ -525,9 +536,5 @@ void Menu::printTitles() {
 	std::cout.width(MAX_CHARACTER_FOR_MOVIE);
 	std::cout << std::left<<"YEAR";
 	cout<<endl;
-
-}
-
-Movie* findDuplicateForName() {
 
 }
