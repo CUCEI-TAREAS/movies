@@ -3,7 +3,6 @@
 using namespace std;
 
 Movie::Movie(){
-    status =  1;
 }
 
 

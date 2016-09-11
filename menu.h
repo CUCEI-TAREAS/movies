@@ -63,6 +63,9 @@
 
 #define MAX_CHARACTER_FOR_MOVIE 35
 
+#define STATUS_RESTORE '1'
+#define STATUS_HIDDEN '0'
+
 class Menu {
 
 public:

@@ -82,10 +82,10 @@ void Menu::doAction(char option) {
 		deleteMovie();
 		break;
 	case HIDDEN_MOVIE :
-		changeStatusMovie(0);
+		changeStatusMovie(STATUS_HIDDEN);
 		break;
 	case RESTORE_MOVIE :
-		changeStatusMovie(1);
+		changeStatusMovie(STATUS_RESTORE);
 		break;
 	case EXIT :
 		break;
@@ -179,7 +179,9 @@ void Menu::showMovies() {
 		printTitles();
 		tempMovie = loadMovie(file, positionMovie, &fileSize);
 		while(tempMovie != nullptr) {
-			printMovie(tempMovie);
+            if(tempMovie->getStatus() == STATUS_RESTORE )
+                printMovie(tempMovie);
+
 			tempMovie = nullptr;
 			tempMovie = loadMovie(file, positionMovie, &fileSize);
 		}
@@ -410,6 +412,8 @@ Movie* Menu::captureMovie() {
 
 	string temp = "";
 	Movie* movieToAdd = new Movie();
+
+    movieToAdd->setStatus(STATUS_RESTORE);
 
 	do {
 		cout<<GET_NAME_MOVIE;
