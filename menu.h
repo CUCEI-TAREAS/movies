@@ -14,7 +14,7 @@
 #define CLEAR "clear"
 #define CLEAR "clear"
 #define DELETE_FILE "rm ./" NAMEFILE
-#define RENAME_FILE "mv ./" NAMEFILE_TEMPORAL " ./" NAMEFILE
+#define RENAME_TEMP_FILE "mv ./" NAMEFILE_TEMPORAL " ./" NAMEFILE
 #elif _WIN32
 #define CLEAR "cls"
 #endif
@@ -29,7 +29,7 @@
 #define TITLE_SHOW_MOVIES   " SHOW MOVIE"
 #define TITLE_SEARCH_MOVIE  " SEARCH MOVIE"
 #define TITLE_MODIFY_MOVIE  " MODIFY MOVIE"
-#define TITLE_DELETE        " DELETE MOVIE"
+#define TITLE_DELETE_MOVIE       " DELETE MOVIE"
 #define TITLE_HIDDEN_MOVIE  " HIDDEN MOVIE"
 #define TITLE_RESTORE_MOVIE " RESTORE MOVIE"
 #define TITLE_EXIT          " EXIT"
@@ -77,6 +77,7 @@ public:
 	void showMovies(void);
 	Movie* searchMovie(void);
 	void modifyMovie(void);
+	void deleteMovie(void);
 
 	Movie* searchMovie(std::ifstream*, std::string); /// seek for name /// since begin -ends
     void modifyMovie(std::ifstream*, std::string, Movie*);

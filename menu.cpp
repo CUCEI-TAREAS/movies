@@ -32,7 +32,7 @@ print only movies unhidden
 Bug OS Win : loadMovie() when the field dimension indicate 10 [ Ten ] its interpretated like \r when is \n
 */
 
-/** TO FIX : bug : 248
+/** FIXED -> MODIFY DIRECTLY ITSELF: bug : 248
 
 		///  TO FIX : BUG : WHEN TRY MODIFY THE SAME MOVIE
 		/// SHOULD COMPARE NEW NAME DIFFERENTE OF ALL MOVIE EXCEPT ITSELF
@@ -55,7 +55,7 @@ void Menu::printMenu() {
 	cout<< SHOW_MOVIES << TITLE_SHOW_MOVIES<<endl;
 	cout<< SEARCH_MOVIE <<TITLE_SEARCH_MOVIE<<endl;
 	cout<< MODIFY_MOVIE <<TITLE_MODIFY_MOVIE<<endl;
-	cout<< DELETE << TITLE_DELETE<<endl;
+	cout<< DELETE << TITLE_DELETE_MOVIE<<endl;
 	cout<< HIDDEN_MOVIE << TITLE_HIDDEN_MOVIE<<endl;
 	cout<< RESTORE_MOVIE << TITLE_RESTORE_MOVIE<<endl;
 	cout<< EXIT << TITLE_EXIT<<endl<<endl;
@@ -72,11 +72,14 @@ void Menu::doAction(char option) {
 		break;
 	case SEARCH_MOVIE :
 		searchMovie();
+		cin.ignore();
+		cin.get();
 		break;
 	case MODIFY_MOVIE :
 		modifyMovie();
 		break;
 	case DELETE :
+	    deleteMovie();
 		break;
 	case HIDDEN_MOVIE :
 		break;
@@ -214,9 +217,6 @@ Movie* Menu::searchMovie() {
 		file->close();
 	}
 
-	cin.get();
-	cin.ignore();
-
 	file = nullptr;
 	delete file;
 
@@ -253,9 +253,9 @@ void Menu::modifyMovie() {
 		/// FIX ->
 
 		/// if the name of the movie is its name, not search the movie and modify it directly.
-            Movie* movieToAdd = nullptr;
+		Movie* movieToAdd = nullptr;
 		if (tempName != tempMovie->getName()) {
-            movieToAdd =  searchMovie(file, tempName);
+			movieToAdd =  searchMovie(file, tempName);
 		}
 
 		if(movieToAdd != nullptr) {
@@ -295,14 +295,63 @@ void Menu::modifyMovie() {
 			file->close();
 			tempFile.close();
 
-			/// delete all pointerss
+			tempMovie = nullptr;
+			movieToAdd = nullptr;
+
+			delete tempMovie;
+			delete movieToAdd;
+
 			system(DELETE_FILE);
-			system(RENAME_FILE);
+			system(RENAME_TEMP_FILE);
 		}
 
 	}
 	cin.ignore();
 	cin.get();
+}
+
+void Menu::deleteMovie(void) {
+
+	Movie* tempMovie = searchMovie();
+
+	if (tempMovie != nullptr) {
+		system(CLEAR);
+		cout<<TITLE_DELETE_MOVIE<<endl<<endl;
+
+		cin.clear();
+
+		ifstream* file = alreadyExistFile(NAMEFILE, ERROR_FILE_MESSAGE);
+		ofstream tempFile(NAMEFILE_TEMPORAL, iostream::app);
+
+		string tempName = tempMovie->getName();
+
+		tempMovie = nullptr;
+		unsigned long* positionMovie =  new unsigned long(START_FIRST_MOVIE);
+		unsigned long fileSize = (unsigned long )file->tellg();
+
+		tempMovie = loadMovie(file, positionMovie, &fileSize);
+		while(tempMovie != nullptr) {
+			if(tempName != tempMovie->getName())
+				writeMovie(&tempFile, tempMovie);
+
+			tempMovie = nullptr;
+			tempMovie = loadMovie(file, positionMovie, &fileSize);
+		}
+
+		file->close();
+		tempFile.close();
+
+		tempMovie = nullptr;
+		delete tempMovie;
+
+		system(DELETE_FILE);
+		system(RENAME_TEMP_FILE);
+
+
+	}
+	cin.ignore();
+	cin.get();
+
 }
 
 Movie* Menu::captureMovie() {
