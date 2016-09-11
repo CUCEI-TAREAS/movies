@@ -79,11 +79,13 @@ void Menu::doAction(char option) {
 		modifyMovie();
 		break;
 	case DELETE :
-	    deleteMovie();
+		deleteMovie();
 		break;
 	case HIDDEN_MOVIE :
+		changeStatusMovie(0);
 		break;
 	case RESTORE_MOVIE :
+		changeStatusMovie(1);
 		break;
 	case EXIT :
 		break;
@@ -237,9 +239,7 @@ void Menu::modifyMovie() {
 		cout<<endl<<endl;
 		cout<<"INSERT NEW MOVIE :"<<endl<<endl;
 
-
 		cin.clear();
-		cin.ignore();
 		string tempName;
 		do {
 			cout<<GET_NAME_MOVIE;
@@ -303,6 +303,9 @@ void Menu::modifyMovie() {
 
 			system(DELETE_FILE);
 			system(RENAME_TEMP_FILE);
+
+			cout<<MOVIE_MODIFIED_SUCCESSFULLY<<endl;
+
 		}
 
 	}
@@ -347,6 +350,52 @@ void Menu::deleteMovie(void) {
 		system(DELETE_FILE);
 		system(RENAME_TEMP_FILE);
 
+		cout<<MOVIE_DELETED_SUCCESSFULLY<<endl;
+	}
+	cin.ignore();
+	cin.get();
+
+}
+
+void Menu::changeStatusMovie(char status) {
+	Movie* tempMovie = searchMovie();
+
+	if (tempMovie != nullptr) {
+		system(CLEAR);
+		cout<<TITLE_HIDDEN_MOVIE<<endl<<endl;
+
+		cin.clear();
+
+		ifstream* file = alreadyExistFile(NAMEFILE, ERROR_FILE_MESSAGE);
+		ofstream tempFile(NAMEFILE_TEMPORAL, iostream::app);
+
+		string tempName = tempMovie->getName();
+
+		tempMovie = nullptr;
+		unsigned long* positionMovie =  new unsigned long(START_FIRST_MOVIE);
+		unsigned long fileSize = (unsigned long )file->tellg();
+
+		tempMovie = loadMovie(file, positionMovie, &fileSize);
+		while(tempMovie != nullptr) {
+			if(tempName == tempMovie->getName()) {
+				tempMovie->setStatus(status);
+			}
+
+			writeMovie(&tempFile, tempMovie);
+			tempMovie = nullptr;
+			tempMovie = loadMovie(file, positionMovie, &fileSize);
+		}
+
+		file->close();
+		tempFile.close();
+
+		tempMovie = nullptr;
+		delete tempMovie;
+
+		system(DELETE_FILE);
+		system(RENAME_TEMP_FILE);
+
+        cout<<MOVIE_MODIFIED_SUCCESSFULLY<<endl;
 
 	}
 	cin.ignore();

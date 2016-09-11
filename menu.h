@@ -59,6 +59,7 @@
 #define MESSAGE_MOVIE_DUPLICATED "MOVIE ALREADY EXISTS! IMPOSSIBLE TO ADD "
 #define MOVIE_ADDED_SUCCESSFULLY "MOVIE ADDED SUCCESSFULLY"
 #define MOVIE_MODIFIED_SUCCESSFULLY "MOVIE MODIFIED SUCCESSFULLY"
+#define MOVIE_DELETED_SUCCESSFULLY "MOVIE DELETE SUCCESSFULLY"
 
 #define MAX_CHARACTER_FOR_MOVIE 35
 
@@ -78,6 +79,11 @@ public:
 	Movie* searchMovie(void);
 	void modifyMovie(void);
 	void deleteMovie(void);
+	void changeStatusMovie(char);
+
+/// to interface and optimization
+    void changeStatus(Movie*, bool); /// true hidden & false restore
+
 
 	Movie* searchMovie(std::ifstream*, std::string); /// seek for name /// since begin -ends
     void modifyMovie(std::ifstream*, std::string, Movie*);
