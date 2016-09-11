@@ -22,9 +22,10 @@ change name variables through defines to make generic
 
 */
 
-/**
+/** completed
 print only movies unhidden
 
+in search() seek all movies
 */
 
 /**
@@ -34,8 +35,8 @@ Bug OS Win : loadMovie() when the field dimension indicate 10 [ Ten ] its interp
 
 /** FIXED -> MODIFY DIRECTLY ITSELF: bug : 248
 
-		///  TO FIX : BUG : WHEN TRY MODIFY THE SAME MOVIE
-		/// SHOULD COMPARE NEW NAME DIFFERENTE OF ALL MOVIE EXCEPT ITSELF
+    TO FIX : BUG : WHEN TRY MODIFY THE SAME MOVIE
+	SHOULD COMPARE NEW NAME DIFFERENTE OF ALL MOVIE EXCEPT ITSELF
 */
 #include "menu.h"
 
