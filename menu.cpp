@@ -5,7 +5,7 @@ should print message as showMovie() "unavailable file"
 
 */
 
-/** to fix -> with new algorithms
+/** completed :  ixed -> with new algorithms
 modify() :246 :
 modifyMovie(file, nameMovie, *movieToAdd, )
 create a temporal, copy every movie seeking for name and then rename namefile, adding all movies with new modify movie
@@ -15,7 +15,6 @@ create a temporal, copy every movie seeking for name and then rename namefile, a
 /** completed -> modify search through search, and avoid overwrite code
 search() modify()
 comparate new algorithms
-
 */
 
 /**
@@ -248,10 +247,17 @@ void Menu::modifyMovie() {
 		} while(tempName.find_first_not_of(" ") == string::npos);
 
 		ifstream* file = alreadyExistFile(NAMEFILE, ERROR_FILE_MESSAGE);
-		Movie* movieToAdd =  searchMovie(file, tempName);
 
 		///  TO FIX : BUG : WHEN TRY MODIFY THE SAME MOVIE
 		/// SHOULD COMPARE NEW NAME DIFFERENTE OF ALL MOVIE EXCEPT ITSELF
+		/// FIX ->
+
+		/// if the name of the movie is its name, not search the movie and modify it directly.
+            Movie* movieToAdd = nullptr;
+		if (tempName != tempMovie->getName()) {
+            movieToAdd =  searchMovie(file, tempName);
+		}
+
 		if(movieToAdd != nullptr) {
 
 			cout<<endl<<endl;
